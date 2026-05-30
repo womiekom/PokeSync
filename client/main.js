@@ -238,9 +238,19 @@ function displayResults(data) {
     alignmentBar.style.width = '0%';
     alignmentValue.textContent = '0%';
     
+    // Color Interpolation Helper
+    const getStatColor = (percent) => {
+        if (percent < 25) return "#ff0000"; // Red
+        if (percent < 50) return "#ff8000"; // Orange
+        if (percent < 75) return "#ffcc00"; // Yellow
+        if (percent < 90) return "#80ff00"; // Light Green
+        return "#00ff00"; // Green
+    };
+
     setTimeout(() => {
         alignmentBar.style.width = `${alignmentScore}%`;
-        // Animate count up
+        alignmentBar.style.backgroundColor = getStatColor(alignmentScore);
+        
         let count = 0;
         const interval = setInterval(() => {
             if (count >= alignmentScore) {
@@ -269,26 +279,35 @@ function displayResults(data) {
     const sortedProbs = Object.entries(data.probabilities)
         .sort(([,a], [,b]) => b - a);
 
-    sortedProbs.forEach(([label, val]) => {
+    sortedProbs.forEach(([label, val], index) => {
         const score = Math.round(val * 100);
+        const isPredicted = label === archName;
+        
         const row = document.createElement('div');
-        row.className = 'prob-row';
+        row.className = `prob-row ${isPredicted ? 'highlighted' : ''}`;
         row.innerHTML = `
             <div class="prob-label-row">
+                <img src="assets/archetypes/${label}.svg" class="archetype-small-icon">
                 <span class="label">${label.replace(/_/g, ' ')}</span>
-                <span class="value">0%</span>
             </div>
-            <div class="prob-bar-bg">
-                <div class="prob-bar-fill" style="width: 0%"></div>
+            <div class="prob-bar-container">
+                <div class="prob-bar-bg">
+                    <div class="prob-bar-fill" style="width: 0%"></div>
+                </div>
+                <span class="prob-val">0%</span>
             </div>
         `;
         chart.appendChild(row);
 
-        // Animate after append
+        // Staggered Animation
         setTimeout(() => {
-            row.querySelector('.prob-bar-fill').style.width = `${score}%`;
-            row.querySelector('.value').textContent = `${score}%`;
-        }, 200);
+            const fill = row.querySelector('.prob-bar-fill');
+            const valLabel = row.querySelector('.prob-val');
+            
+            fill.style.width = `${score}%`;
+            fill.style.backgroundColor = getStatColor(score);
+            valLabel.textContent = `${score}%`;
+        }, 200 + (index * 150));
     });
 }
 

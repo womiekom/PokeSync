@@ -16,7 +16,7 @@ PokeSync is a Pokémon competitive team archetype prediction web app. It uses Ma
 - **ML Model**: Scikit-learn (RandomForestClassifier)
 - **Data Processing**: Pandas
 - **Serialization**: Joblib
-- **Frontend**: Next.js (Planned)
+- **Frontend**: HTML CSS JS
 
 ## Project Structure
 
@@ -41,7 +41,6 @@ PokeSync/
 ### Prerequisites
 
 - Python 3.9+
-- Node.js (for future frontend)
 
 ### Backend Setup
 
