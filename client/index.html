@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeSync - Team Archetype Predictor</title>
+    <link rel="icon" type="image/svg+xml" href="assets/ui/pokeball.svg">
+    <link rel="stylesheet" href="style.css?v=2.0">
+</head>
+<body>
+    <div class="bg-layers">
+        <div class="bg-layer ball-layer pokeball"></div>
+        <div class="bg-layer ball-layer greatball"></div>
+        <div class="bg-layer ball-layer ultraball"></div>
+        <div class="bg-layer ball-layer masterball"></div>
+        <div class="bg-layer grid-layer"></div>
+    </div>
+    <!-- Analysis Overlay -->
+    <div id="analysis-overlay" class="analysis-overlay hidden">
+        <div class="overlay-content">
+            <div class="pokeball-container">
+                <div class="pokeball-animated">
+                    <div class="pokeball-top"></div>
+                    <div class="pokeball-bottom"></div>
+                    <div class="pokeball-center"></div>
+                </div>
+                <div class="pokeball-fill"></div>
+            </div>
+            <div id="analysis-log" class="analysis-log">
+                <h3 id="analysis-phase">Initializing System...</h3>
+                <ul id="analysis-steps"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 class="custom-font">PokeSync</h1>
+            <p>Competitive Team Archetype Analyst</p>
+        </header>
+
+        <main>
+            <section class="team-input">
+                <h2 class="custom-font">Your Team</h2>
+                <div class="search-container">
+                    <input type="text" id="pokemon-search" placeholder="Type a Pokémon name (e.g., Toxapex)..." autocomplete="off">
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+                
+                <div id="team-slots" class="team-slots">
+                    <!-- 6 slots for selected pokemon -->
+                    <div class="slot" data-index="0"><span>+</span></div>
+                    <div class="slot" data-index="1"><span>+</span></div>
+                    <div class="slot" data-index="2"><span>+</span></div>
+                    <div class="slot" data-index="3"><span>+</span></div>
+                    <div class="slot" data-index="4"><span>+</span></div>
+                    <div class="slot" data-index="5"><span>+</span></div>
+                </div>
+
+                <button id="predict-btn" class="custom-font" disabled>Predict Archetype</button>
+            </section>
+
+            <section id="results" class="results hidden">
+                <div class="prediction-header">
+                    <div class="archetype-title-container">
+                        <img id="prediction-icon" src="" class="archetype-icon-lg" alt="">
+                        <div class="prediction-text">
+                            <span class="label">PREDICTION</span>
+                            <h2 id="archetype-name" class="custom-font">---</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="alignment-meter-container">
+                        <div class="alignment-header">
+                            <span class="custom-font">Strategic Alignment</span>
+                            <span id="alignment-value">0%</span>
+                        </div>
+                        <div class="alignment-bar-bg">
+                            <div id="alignment-bar" class="alignment-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="explanations">
+                        <h3 class="custom-font">Team Analysis</h3>
+                        <ul id="explanation-list"></ul>
+                    </div>
+                    
+                    <div class="probabilities">
+                        <h3 class="custom-font">Archetype Breakdown</h3>
+                        <div id="prob-chart"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Data powered by PokeAPI & PokeSync ML Model</p>
+        </footer>
+    </div>
+    <script src="main.js?v=2.0"></script>
+</body>
+</html>
