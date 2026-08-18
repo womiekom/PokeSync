@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeSync - Team Archetype Predictor</title>
+    <title>PokeSync - Competitive Pokémon Team Assistant</title>
     <link rel="icon" type="image/svg+xml" href="assets/ui/pokeball.svg">
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=2.1">
 </head>
 <body>
     <div class="bg-layers">
@@ -15,6 +15,7 @@
         <div class="bg-layer ball-layer masterball"></div>
         <div class="bg-layer grid-layer"></div>
     </div>
+
     <!-- Analysis Overlay -->
     <div id="analysis-overlay" class="analysis-overlay hidden">
         <div class="overlay-content">
@@ -35,15 +36,23 @@
 
     <div class="container">
         <header>
-            <h1 class="custom-font">PokeSync</h1>
-            <p>Competitive Team Archetype Analyst</p>
+            <div class="logo-row">
+                <img src="assets/ui/pokeball.svg" alt="Pokeball" class="header-logo-ball">
+                <h1 class="custom-font">PokeSync</h1>
+            </div>
+            <p class="tagline">Competitive Pokémon Team Assistant & Strategy Analyst</p>
         </header>
 
         <main>
-            <section class="team-input">
-                <h2 class="custom-font">Your Team</h2>
+            <!-- 1. Team Input Builder -->
+            <section class="team-input card">
+                <div class="section-title-row">
+                    <h2 class="custom-font">Your Team Roster</h2>
+                    <span class="slot-counter custom-font" id="team-counter">0 / 6 Selected</span>
+                </div>
+                
                 <div class="search-container">
-                    <input type="text" id="pokemon-search" placeholder="Type a Pokémon name (e.g., Toxapex)..." autocomplete="off">
+                    <input type="text" id="pokemon-search" placeholder="Search a Pokémon to add (e.g., Toxapex, Pelipper, Ursaluna)..." autocomplete="off">
                     <div id="suggestions" class="suggestions"></div>
                 </div>
                 
@@ -56,49 +65,274 @@
                     <div class="slot" data-index="4"><span>+</span></div>
                     <div class="slot" data-index="5"><span>+</span></div>
                 </div>
-
-                <button id="predict-btn" class="custom-font" disabled>Predict Archetype</button>
             </section>
 
-            <section id="results" class="results hidden">
-                <div class="prediction-header">
-                    <div class="archetype-title-container">
-                        <img id="prediction-icon" src="" class="archetype-icon-lg" alt="">
-                        <div class="prediction-text">
-                            <span class="label">PREDICTION</span>
-                            <h2 id="archetype-name" class="custom-font">---</h2>
+            <!-- 2. Analysis Hub Selection -->
+            <section class="analysis-hub card">
+                <div class="hub-header">
+                    <h2 class="custom-font">What Would You Like To Analyze?</h2>
+                    <p class="hub-subtitle">Choose an analysis goal to evaluate your 6-Pokémon team</p>
+                </div>
+
+                <div class="hub-grid">
+                    <!-- Option 1: Archetype Predictor -->
+                    <div class="hub-card active-option" id="hub-card-archetype">
+                        <div class="hub-card-top">
+                            <div class="hub-icon-wrap">
+                                <img src="assets/archetypes/balance.svg" alt="Archetype" class="hub-icon">
+                            </div>
+                            <span class="badge badge-ready custom-font">ACTIVE</span>
+                        </div>
+                        <h3 class="custom-font">Archetype Predictor</h3>
+                        <p class="hub-card-desc">Predict your team's overarching playstyle (Rain, Sun, Trick Room, Stall, Hyper Offense, etc.) using Machine Learning.</p>
+                        <button id="predict-btn" class="custom-font hub-action-btn" disabled>
+                            <span>🔮 Predict Archetype</span>
+                        </button>
+                    </div>
+
+                    <!-- Option 2: Team Synergy Engine -->
+                    <div class="hub-card active-option" id="hub-card-synergy">
+                        <div class="hub-card-top">
+                            <div class="hub-icon-wrap synergy-icon-wrap">
+                                <img src="assets/ui/masterball.svg" alt="Synergy" class="hub-icon">
+                            </div>
+                            <span class="badge badge-ready custom-font">NEW</span>
+                        </div>
+                        <h3 class="custom-font">Team Synergy Engine</h3>
+                        <p class="hub-card-desc">Evaluate shared type weaknesses, speed tier balance, physical/special split, and weather/strategy teamwork.</p>
+                        <button id="synergy-btn" class="custom-font hub-action-btn btn-synergy" disabled>
+                            <span>🧩 Analyze Synergy</span>
+                        </button>
+                    </div>
+
+                    <!-- Option 3: Moveset Recommender (Roadmap) -->
+                    <div class="hub-card coming-soon-card">
+                        <div class="hub-card-top">
+                            <div class="hub-icon-wrap disabled-icon-wrap">
+                                <img src="assets/decorative/energy-motif.svg" alt="Moveset" class="hub-icon">
+                            </div>
+                            <span class="badge badge-soon custom-font">COMING SOON</span>
+                        </div>
+                        <h3 class="custom-font">Moveset Recommender</h3>
+                        <p class="hub-card-desc">Suggest optimal competitive movesets, items, and EV spreads tailored to your team's archetype.</p>
+                        <button class="custom-font hub-action-btn btn-disabled" disabled>
+                            <span>⚔️ Phase 3 Roadmap</span>
+                        </button>
+                    </div>
+
+                    <!-- Option 4: Team Optimizer (Roadmap) -->
+                    <div class="hub-card coming-soon-card">
+                        <div class="hub-card-top">
+                            <div class="hub-icon-wrap disabled-icon-wrap">
+                                <img src="assets/decorative/battle-grid.svg" alt="Optimizer" class="hub-icon">
+                            </div>
+                            <span class="badge badge-soon custom-font">COMING SOON</span>
+                        </div>
+                        <h3 class="custom-font">Team Optimizer</h3>
+                        <p class="hub-card-desc">Discover alternative Pokémon replacements to patch severe defensive holes and expand offensive coverage.</p>
+                        <button class="custom-font hub-action-btn btn-disabled" disabled>
+                            <span>🛠️ Phase 3 Roadmap</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Results Section Container -->
+            <section id="results-container" class="results-container hidden">
+                <!-- Navigation Tabs (shown when at least one analysis is generated) -->
+                <div class="results-tab-bar" id="results-tab-bar">
+                    <button class="tab-btn custom-font active" id="tab-archetype" onclick="switchResultTab('archetype')">🔮 Archetype Prediction</button>
+                    <button class="tab-btn custom-font" id="tab-synergy" onclick="switchResultTab('synergy')">🧩 Team Synergy</button>
+                </div>
+
+                <!-- VIEW A: Archetype Prediction Results -->
+                <div id="results-archetype" class="result-view card">
+                    <div class="prediction-header">
+                        <div class="archetype-title-container">
+                            <img id="prediction-icon" src="" class="archetype-icon-lg" alt="">
+                            <div class="prediction-text">
+                                <span class="label custom-font">PREDICTED ARCHETYPE</span>
+                                <h2 id="archetype-name" class="custom-font">---</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="alignment-meter-container">
+                            <div class="alignment-header">
+                                <span class="custom-font">Strategic Alignment</span>
+                                <span id="alignment-value" class="custom-font">0%</span>
+                            </div>
+                            <div class="alignment-bar-bg">
+                                <div id="alignment-bar" class="alignment-bar-fill"></div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="alignment-meter-container">
-                        <div class="alignment-header">
-                            <span class="custom-font">Strategic Alignment</span>
-                            <span id="alignment-value">0%</span>
+
+                    <div class="content-grid">
+                        <div class="explanations card-inner">
+                            <h3 class="custom-font section-subheading">Strategic Rationale</h3>
+                            <ul id="explanation-list" class="styled-list"></ul>
                         </div>
-                        <div class="alignment-bar-bg">
-                            <div id="alignment-bar" class="alignment-bar-fill"></div>
+                        
+                        <div class="probabilities card-inner">
+                            <h3 class="custom-font section-subheading">Archetype Probabilities</h3>
+                            <div id="prob-chart"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="content-grid">
-                    <div class="explanations">
-                        <h3 class="custom-font">Team Analysis</h3>
-                        <ul id="explanation-list"></ul>
+                <!-- VIEW B: Team Synergy Results -->
+                <div id="results-synergy" class="result-view card hidden">
+                    <!-- Synergy Overall Banner -->
+                    <div class="synergy-header">
+                        <div class="synergy-score-dial">
+                            <div class="score-number custom-font" id="synergy-score-val">--</div>
+                            <div class="score-label custom-font">SYNERGY SCORE</div>
+                        </div>
+                        <div class="synergy-header-text">
+                            <div class="rating-tag-row">
+                                <span class="label custom-font">OVERALL EVALUATION</span>
+                                <span id="synergy-rating-badge" class="badge badge-success custom-font">STRONG</span>
+                            </div>
+                            <h2 id="synergy-summary-title" class="custom-font">High Team Synergy</h2>
+                            <p id="synergy-summary-desc">Your team demonstrates strong strategic teamwork and balanced defensive coverage.</p>
+                        </div>
                     </div>
-                    
-                    <div class="probabilities">
-                        <h3 class="custom-font">Archetype Breakdown</h3>
-                        <div id="prob-chart"></div>
+
+                    <!-- Synergy Sub-Scores -->
+                    <div class="subscore-grid">
+                        <div class="subscore-card">
+                            <div class="subscore-top">
+                                <span class="subscore-title custom-font">🛡️ Defensive Coverage</span>
+                                <span id="subscore-def-val" class="subscore-val custom-font">--%</span>
+                            </div>
+                            <div class="subscore-bar-bg">
+                                <div id="subscore-def-bar" class="subscore-bar-fill"></div>
+                            </div>
+                        </div>
+                        <div class="subscore-card">
+                            <div class="subscore-top">
+                                <span class="subscore-title custom-font">⚔️ Offensive Balance</span>
+                                <span id="subscore-off-val" class="subscore-val custom-font">--%</span>
+                            </div>
+                            <div class="subscore-bar-bg">
+                                <div id="subscore-off-bar" class="subscore-bar-fill"></div>
+                            </div>
+                        </div>
+                        <div class="subscore-card">
+                            <div class="subscore-top">
+                                <span class="subscore-title custom-font">⚡ Strategic Cohesion</span>
+                                <span id="subscore-strat-val" class="subscore-val custom-font">--%</span>
+                            </div>
+                            <div class="subscore-bar-bg">
+                                <div id="subscore-strat-bar" class="subscore-bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strengths and Gaps Grid -->
+                    <div class="strengths-gaps-grid">
+                        <div class="card-inner">
+                            <h3 class="custom-font section-subheading heading-strength">🟢 Key Strengths</h3>
+                            <div id="synergy-strengths-list" class="card-stack"></div>
+                        </div>
+                        <div class="card-inner">
+                            <h3 class="custom-font section-subheading heading-gap">⚠️ Gaps & Vulnerabilities</h3>
+                            <div id="synergy-gaps-list" class="card-stack"></div>
+                        </div>
+                    </div>
+
+                    <!-- Defensive Type Matchup Matrix -->
+                    <div class="type-matrix-section card-inner">
+                        <div class="matrix-header">
+                            <div>
+                                <h3 class="custom-font section-subheading">Elemental Defense Matrix</h3>
+                                <p class="subtext">How your 6 Pokémon withstand all 18 elemental attack types</p>
+                            </div>
+                            <div class="matrix-legend">
+                                <span class="legend-item"><span class="dot dot-strength"></span> Strong Resist</span>
+                                <span class="legend-item"><span class="dot dot-balanced"></span> Balanced</span>
+                                <span class="legend-item"><span class="dot dot-warning"></span> Warning</span>
+                                <span class="legend-item"><span class="dot dot-danger"></span> Danger</span>
+                            </div>
+                        </div>
+                        <div id="type-matchup-grid" class="type-matchup-grid"></div>
+                    </div>
+
+                    <!-- Offensive Profile Breakdown -->
+                    <div class="offensive-profile-grid">
+                        <div class="card-inner profile-card">
+                            <h4 class="custom-font profile-card-title">Damage Split</h4>
+                            <div class="profile-split-row" id="profile-split-display">
+                                <div class="split-stat">
+                                    <span class="split-num custom-font" id="split-phys-count">0</span>
+                                    <span class="split-lbl">Physical</span>
+                                </div>
+                                <div class="split-divider">/</div>
+                                <div class="split-stat">
+                                    <span class="split-num custom-font" id="split-spec-count">0</span>
+                                    <span class="split-lbl">Special</span>
+                                </div>
+                                <div class="split-divider">/</div>
+                                <div class="split-stat">
+                                    <span class="split-num custom-font" id="split-mix-count">0</span>
+                                    <span class="split-lbl">Mixed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-inner profile-card">
+                            <h4 class="custom-font profile-card-title">Speed Tiers</h4>
+                            <div class="speed-tier-row">
+                                <div class="speed-tier-item tier-fast">
+                                    <span class="speed-count custom-font" id="speed-fast-count">0</span>
+                                    <span class="speed-label">Fast (100+)</span>
+                                </div>
+                                <div class="speed-tier-item tier-mid">
+                                    <span class="speed-count custom-font" id="speed-mid-count">0</span>
+                                    <span class="speed-label">Mid (65-99)</span>
+                                </div>
+                                <div class="speed-tier-item tier-slow">
+                                    <span class="speed-count custom-font" id="speed-slow-count">0</span>
+                                    <span class="speed-label">Slow (&le;60)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-inner profile-card">
+                            <h4 class="custom-font profile-card-title">STAB Coverage</h4>
+                            <div class="coverage-display">
+                                <span class="coverage-num custom-font" id="coverage-count-val">0</span>
+                                <span class="coverage-denom custom-font">/ 18 Types Hit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beginner Guide Callout -->
+                    <div class="beginner-guide-card card-inner">
+                        <div class="guide-header">
+                            <span class="guide-icon">💡</span>
+                            <h3 class="custom-font">What Does This Mean? (Beginner Guide)</h3>
+                        </div>
+                        <p id="beginner-summary-text" class="guide-text">
+                            Team synergy measures how effectively your 6 Pokémon cover each other's weaknesses and coordinate toward a winning game plan.
+                        </p>
+                        <div class="glossary-row">
+                            <span class="tooltip-badge" data-tooltip="Same Type Attack Bonus: When a Pokémon uses a move matching its type, the attack deals 50% more damage.">ℹ️ STAB</span>
+                            <span class="tooltip-badge" data-tooltip="Defensive Wall: A Pokémon with high HP and Defense or Sp. Defense designed to take hits and stall out attackers.">ℹ️ Wall</span>
+                            <span class="tooltip-badge" data-tooltip="Sweeper: A fast, high-damage Pokémon designed to knock out multiple weakened opposing Pokémon in a row.">ℹ️ Sweeper</span>
+                            <span class="tooltip-badge" data-tooltip="Speed Control: Moves and strategies (like Trick Room or Tailwind) that ensure your Pokémon attack first.">ℹ️ Speed Control</span>
+                            <span class="tooltip-badge" data-tooltip="Weather Setter: A Pokémon with abilities like Drizzle or Drought that changes the field weather upon entering battle.">ℹ️ Weather Setter</span>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
 
         <footer>
-            <p>Data powered by PokeAPI & PokeSync ML Model</p>
+            <p>Data powered by PokeAPI & PokeSync Machine Learning & Synergy Engine</p>
         </footer>
     </div>
-    <script src="main.js?v=2.0"></script>
+
+    <script src="main.js?v=2.1"></script>
 </body>
 </html>
