@@ -146,7 +146,7 @@ async function fetchPokemonImage(name, slot) {
 function addLog(text) {
     const li = document.createElement('li');
     li.className = 'analysis-step-item';
-    li.innerHTML = `✓ ${text}`;
+    li.innerHTML = `<span class="retro-bullet">▶</span> ${text}`;
     analysisStepsList.appendChild(li);
     li.scrollIntoView({ behavior: 'smooth' });
 }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" shape-rendering="crispEdges">
+  <!-- Top Left Piece -->
+  <path d="M3 3h8v8H3z" fill="#7b1fa2"/>
+  <path d="M5 5h4v4H5z" fill="#ab47bc"/>
+  <!-- Top Right Piece -->
+  <path d="M13 3h8v8h-8z" fill="#3b4cca"/>
+  <path d="M15 5h4v4h-4z" fill="#5c6bc0"/>
+  <!-- Bottom Left Piece -->
+  <path d="M3 13h8v8H3z" fill="#3b4cca"/>
+  <path d="M5 15h4v4H5z" fill="#5c6bc0"/>
+  <!-- Bottom Right Piece -->
+  <path d="M13 13h8v8h-8z" fill="#7b1fa2"/>
+  <path d="M15 15h4v4h-4z" fill="#ab47bc"/>
+  <!-- Center Sync Core -->
+  <path d="M9 9h6v6H9z" fill="#ffcb05"/>
+  <path d="M11 11h2v2h-2z" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" shape-rendering="crispEdges">
+  <!-- Outer Stand -->
+  <path d="M7 20h10v2H7zM9 18h6v2H9z" fill="#2c3e50"/>
+  <!-- Crystal Orb Base -->
+  <path d="M7 6h10v10H7z" fill="#7b1fa2"/>
+  <!-- Orb Inner Glow -->
+  <path d="M9 8h6v6H9z" fill="#ba68c8"/>
+  <path d="M10 9h4v4h-4z" fill="#e1bee7"/>
+  <!-- Pixel Sparkles -->
+  <path d="M5 4h2v2H5zM17 4h2v2h-2zM4 11h2v2H4zM18 11h2v2h-2z" fill="#ab47bc"/>
+  <path d="M11 4h2v2h-2zM11 16h2v2h-2z" fill="#f3e5f5"/>
+</svg>
