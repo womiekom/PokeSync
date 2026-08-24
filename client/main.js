@@ -436,15 +436,24 @@ function displaySynergyResults(data) {
     
     // Overall Score Dial & Rating Badge
     const scoreVal = document.getElementById('synergy-score-val');
+    const scoreRing = document.getElementById('synergy-score-ring');
     const ratingBadge = document.getElementById('synergy-rating-badge');
     const summaryTitle = document.getElementById('synergy-summary-title');
     const summaryDesc = document.getElementById('synergy-summary-desc');
 
-    scoreVal.textContent = overall.score;
-    ratingBadge.textContent = overall.rating.toUpperCase();
-    ratingBadge.className = `badge custom-font badge-${overall.rating_color}`;
-    summaryTitle.textContent = `${overall.rating} Strategic Synergy`;
-    summaryDesc.textContent = overall.summary;
+    if (scoreVal) scoreVal.textContent = overall.score;
+    if (scoreRing) {
+        scoreRing.style.setProperty('--score-pct', 0);
+        setTimeout(() => {
+            scoreRing.style.setProperty('--score-pct', overall.score);
+        }, 150);
+    }
+    if (ratingBadge) {
+        ratingBadge.textContent = overall.rating.toUpperCase();
+        ratingBadge.className = `badge custom-font badge-${overall.rating_color}`;
+    }
+    if (summaryTitle) summaryTitle.textContent = `${overall.rating} Strategic Synergy`;
+    if (summaryDesc) summaryDesc.textContent = overall.summary;
 
     // Sub-Scores
     const updateSubScore = (valId, barId, score) => {
@@ -539,8 +548,9 @@ function displaySynergyResults(data) {
     }
 
     // Beginner Guide
-    if (data.beginner_guide) {
-        document.getElementById('beginner-summary-text').textContent = data.beginner_guide.summary;
+    const beginnerEl = document.getElementById('beginner-summary-text');
+    if (beginnerEl && data.beginner_guide) {
+        beginnerEl.textContent = data.beginner_guide.summary;
     }
 }
 

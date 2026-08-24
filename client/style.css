@@ -551,7 +551,7 @@ input[type="text"]:focus {
 }
 
 .synergy-icon-wrap {
-    background: #f3e8ff;
+    background: #e8eaf6;
 }
 
 .disabled-icon-wrap {
@@ -698,15 +698,15 @@ input[type="text"]:focus {
 }
 
 .btn-synergy {
-    background: #7b1fa2;
+    background: var(--accent);
     color: white;
-    box-shadow: 0 4px 12px rgba(123, 31, 162, 0.25);
+    box-shadow: 0 4px 12px rgba(59, 76, 202, 0.25);
 }
 
 .btn-synergy:hover:not(:disabled) {
-    background: #6a1b9a;
+    background: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(123, 31, 162, 0.35);
+    box-shadow: 0 6px 16px rgba(59, 76, 202, 0.35);
 }
 
 .hub-action-btn:disabled {
@@ -945,7 +945,9 @@ input[type="text"]:focus {
    4. SYNERGY RESULTS VIEW
 ============================================================= */
 .synergy-header {
-    background: linear-gradient(135deg, #2b1055 0%, #4c1d95 100%);
+    background: #222224;
+    border: 2px solid #333;
+    border-top: 4px solid var(--primary);
     color: white;
     padding: 2.2rem;
     border-radius: 12px;
@@ -953,6 +955,7 @@ input[type="text"]:focus {
     display: flex;
     align-items: center;
     gap: 2.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 768px) {
@@ -963,32 +966,109 @@ input[type="text"]:focus {
     }
 }
 
-.synergy-score-dial {
-    width: 120px;
-    height: 120px;
-    border: 8px solid rgba(255, 255, 255, 0.2);
-    border-top-color: #a855f7;
-    border-radius: 50%;
+/* Pokeball Synergy Score Meter */
+.synergy-score-dial-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
 }
 
+.synergy-pokeball-dial {
+    position: relative;
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+    background: #18181a;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.pokeball-fill-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary) 0deg, var(--primary) calc(var(--score-pct, 0) * 3.6deg), rgba(255, 255, 255, 0.12) calc(var(--score-pct, 0) * 3.6deg), rgba(255, 255, 255, 0.12) 360deg);
+    transition: background 1s ease-out;
+}
+
+.pokeball-inner {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    border: 3px solid #222224;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.pokeball-top-half {
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(180deg, #ee1515 0%, #c00d0d 100%);
+    border-bottom: 2px solid #222224;
+}
+
+.pokeball-bottom-half {
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+}
+
+.pokeball-center-stripe {
+    position: absolute;
+    top: calc(50% - 4px);
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: #222224;
+    z-index: 2;
+}
+
+.pokeball-center-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 4px solid #222224;
+    box-shadow: 0 0 0 2px #ffffff, 0 3px 8px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
 .score-number {
-    font-size: 2.8rem;
+    font-size: 1.7rem;
     font-weight: 900;
     line-height: 1;
-    color: #fff;
+    color: #222224;
+    text-shadow: 1.5px 1.5px 0px var(--primary);
 }
 
 .score-label {
-    font-size: 0.65rem;
-    letter-spacing: 1px;
-    color: #d8b4fe;
-    margin-top: 4px;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    color: #aaa;
+    margin-top: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .rating-tag-row {
@@ -1000,7 +1080,7 @@ input[type="text"]:focus {
 
 .rating-tag-row .label {
     font-size: 0.8rem;
-    color: #d8b4fe;
+    color: #aaa;
     letter-spacing: 1.5px;
 }
 
@@ -1008,10 +1088,11 @@ input[type="text"]:focus {
     font-size: 2.2rem;
     color: #fff;
     margin-bottom: 6px;
+    text-shadow: 3px 3px 0px var(--primary);
 }
 
 .synergy-header-text p {
-    color: #e9d5ff;
+    color: #ddd;
     font-size: 1.05rem;
     line-height: 1.4;
 }
@@ -1066,8 +1147,20 @@ input[type="text"]:focus {
 .subscore-bar-fill {
     height: 100%;
     width: 0%;
-    background: #7b1fa2;
+    background: var(--accent);
     transition: width 1.2s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+#subscore-def-bar {
+    background: linear-gradient(90deg, #1e88e5, #3b4cca);
+}
+
+#subscore-off-bar {
+    background: linear-gradient(90deg, #e53935, #ee1515);
+}
+
+#subscore-strat-bar {
+    background: linear-gradient(90deg, #ffa000, #ff8f00);
 }
 
 /* Strengths & Gaps Stack */
@@ -1364,7 +1457,7 @@ input[type="text"]:focus {
 .speed-count {
     font-size: 1.6rem;
     font-weight: 900;
-    color: #7b1fa2;
+    color: var(--accent);
     display: block;
 }
 
