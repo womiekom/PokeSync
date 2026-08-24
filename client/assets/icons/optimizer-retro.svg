@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" shape-rendering="crispEdges">
+  <!-- Wrench Head -->
+  <path d="M14 2h8v8h-2V6h-2v2h-4V6h2V4h-2V2z" fill="#f57c00"/>
+  <path d="M16 4h4v2h-4z" fill="#ffe0b2"/>
+  <!-- Shaft -->
+  <path d="M10 10h4v4h-4zM8 12h4v4H8zM6 14h4v4H6zM4 16h4v4H4z" fill="#e65100"/>
+  <path d="M2 18h4v4H2z" fill="#f57c00"/>
+</svg>

@@ -31,9 +31,23 @@ async function init() {
 }
 
 // Search & Autocomplete
+let selectedIndex = -1;
+
+function updateHighlight(items) {
+    items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+            item.classList.add('highlighted');
+            item.scrollIntoView({ block: 'nearest' });
+        } else {
+            item.classList.remove('highlighted');
+        }
+    });
+}
+
 searchInput.addEventListener('input', (e) => {
     const val = e.target.value.toLowerCase().trim();
     suggestionsBox.innerHTML = '';
+    selectedIndex = -1;
     
     if (val.length < 2) return;
 
@@ -41,18 +55,52 @@ searchInput.addEventListener('input', (e) => {
         .filter(p => p.includes(val))
         .slice(0, 8);
 
-    matches.forEach(name => {
+    matches.forEach((name, index) => {
         const div = document.createElement('div');
         div.className = 'suggestion-item custom-font';
         div.textContent = name.replace(/-/g, ' ');
+        div.dataset.name = name;
         div.onclick = () => addPokemon(name);
+        div.addEventListener('mouseenter', () => {
+            selectedIndex = index;
+            const items = suggestionsBox.querySelectorAll('.suggestion-item');
+            items.forEach((item, i) => {
+                item.classList.toggle('highlighted', i === selectedIndex);
+            });
+        });
         suggestionsBox.appendChild(div);
     });
+});
+
+searchInput.addEventListener('keydown', (e) => {
+    const items = suggestionsBox.querySelectorAll('.suggestion-item');
+    if (!items.length) return;
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateHighlight(items);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = selectedIndex <= 0 ? items.length - 1 : selectedIndex - 1;
+        updateHighlight(items);
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const targetIndex = selectedIndex >= 0 ? selectedIndex : 0;
+        const targetItem = items[targetIndex];
+        if (targetItem && targetItem.dataset.name) {
+            addPokemon(targetItem.dataset.name);
+        }
+    } else if (e.key === 'Escape') {
+        suggestionsBox.innerHTML = '';
+        selectedIndex = -1;
+    }
 });
 
 document.addEventListener('click', (e) => {
     if (e.target !== searchInput) {
         suggestionsBox.innerHTML = '';
+        selectedIndex = -1;
     }
 });
 
@@ -63,6 +111,7 @@ function addPokemon(name) {
     selectedTeam.push(name);
     searchInput.value = '';
     suggestionsBox.innerHTML = '';
+    selectedIndex = -1;
     updateTeamUI();
 }
 
@@ -146,7 +195,7 @@ async function fetchPokemonImage(name, slot) {
 function addLog(text) {
     const li = document.createElement('li');
     li.className = 'analysis-step-item';
-    li.innerHTML = `✓ ${text}`;
+    li.innerHTML = `<span class="retro-bullet">▶</span> ${text}`;
     analysisStepsList.appendChild(li);
     li.scrollIntoView({ behavior: 'smooth' });
 }
@@ -387,15 +436,24 @@ function displaySynergyResults(data) {
     
     // Overall Score Dial & Rating Badge
     const scoreVal = document.getElementById('synergy-score-val');
+    const scoreRing = document.getElementById('synergy-score-ring');
     const ratingBadge = document.getElementById('synergy-rating-badge');
     const summaryTitle = document.getElementById('synergy-summary-title');
     const summaryDesc = document.getElementById('synergy-summary-desc');
 
-    scoreVal.textContent = overall.score;
-    ratingBadge.textContent = overall.rating.toUpperCase();
-    ratingBadge.className = `badge custom-font badge-${overall.rating_color}`;
-    summaryTitle.textContent = `${overall.rating} Strategic Synergy`;
-    summaryDesc.textContent = overall.summary;
+    if (scoreVal) scoreVal.textContent = overall.score;
+    if (scoreRing) {
+        scoreRing.style.setProperty('--score-pct', 0);
+        setTimeout(() => {
+            scoreRing.style.setProperty('--score-pct', overall.score);
+        }, 150);
+    }
+    if (ratingBadge) {
+        ratingBadge.textContent = overall.rating.toUpperCase();
+        ratingBadge.className = `badge custom-font badge-${overall.rating_color}`;
+    }
+    if (summaryTitle) summaryTitle.textContent = `${overall.rating} Strategic Synergy`;
+    if (summaryDesc) summaryDesc.textContent = overall.summary;
 
     // Sub-Scores
     const updateSubScore = (valId, barId, score) => {
@@ -490,8 +548,9 @@ function displaySynergyResults(data) {
     }
 
     // Beginner Guide
-    if (data.beginner_guide) {
-        document.getElementById('beginner-summary-text').textContent = data.beginner_guide.summary;
+    const beginnerEl = document.getElementById('beginner-summary-text');
+    if (beginnerEl && data.beginner_guide) {
+        beginnerEl.textContent = data.beginner_guide.summary;
     }
 }
 
