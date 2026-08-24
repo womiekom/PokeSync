@@ -271,12 +271,15 @@ input[type="text"]:focus {
     cursor: pointer;
     font-weight: 600;
     border-bottom: 1px solid #f5f5f5;
-    transition: background 0.2s;
+    transition: background 0.15s, color 0.15s, padding-left 0.15s;
 }
 
-.suggestion-item:hover {
+.suggestion-item:hover,
+.suggestion-item.highlighted {
     background: #f0f4ff;
     color: var(--accent);
+    padding-left: 24px;
+    border-left: 4px solid var(--accent);
 }
 
 /* Team Slots Grid */
