@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokeSync</title>
     <link rel="icon" type="image/svg+xml" href="assets/ui/pokeball.svg">
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 
 <body>
@@ -42,20 +42,30 @@
                 <img src="assets/ui/pokeball.svg" alt="Pokeball" class="header-logo-ball">
                 <h1 class="custom-font">PokeSync</h1>
             </div>
-            <p class="tagline">Competitive Pokémon Team Assistant & Strategy Analyst</p>
+            <p class="tagline">Competitive Pokémon Team Assistant, Moveset Recommender & Strategy Optimizer</p>
         </header>
 
         <main>
             <!-- 1. Team Input Builder -->
             <section class="team-input card">
                 <div class="section-title-row">
-                    <h2 class="custom-font">Your Team Roster</h2>
+                    <div>
+                        <h2 class="custom-font">Your Team Roster</h2>
+                        <div class="format-toggle-container">
+                            <span class="format-label custom-font">FORMAT:</span>
+                            <button class="format-btn custom-font active" id="format-btn-ou"
+                                onclick="setFormat('gen9ou')">Gen 9 OU (Singles)</button>
+                            <button class="format-btn custom-font" id="format-btn-vgc"
+                                onclick="setFormat('gen9vgc')">Gen 9 VGC (Doubles)</button>
+                        </div>
+                    </div>
                     <span class="slot-counter custom-font" id="team-counter">0 / 6 Selected</span>
                 </div>
 
                 <div class="search-container">
                     <input type="text" id="pokemon-search"
-                        placeholder="Search a Pokémon to add (e.g., Toxapex, Pelipper, Ursaluna)..." autocomplete="off">
+                        placeholder="Search a Pokémon to add (e.g., Great Tusk, Gholdengo, Kingambit, Ogerpon)..."
+                        autocomplete="off">
                     <div id="suggestions" class="suggestions"></div>
                 </div>
 
@@ -73,8 +83,8 @@
             <!-- 2. Analysis Hub Selection -->
             <section class="analysis-hub card">
                 <div class="hub-header">
-                    <h2 class="custom-font">What Would You Like To Analyze?</h2>
-                    <p class="hub-subtitle">Choose an analysis goal to evaluate your 6-Pokémon team</p>
+                    <h2 class="custom-font">Competitive Analysis & Optimization Hub</h2>
+                    <p class="hub-subtitle">Choose an analysis engine to evaluate and power up your 6-Pokémon team</p>
                 </div>
 
                 <div class="hub-grid">
@@ -110,35 +120,35 @@
                         </button>
                     </div>
 
-                    <!-- Option 3: Moveset Recommender (Roadmap) -->
-                    <div class="hub-card coming-soon-card">
+                    <!-- Option 3: Moveset Recommender (Phase 3) -->
+                    <div class="hub-card active-option" id="hub-card-moveset">
                         <div class="hub-card-top">
-                            <div class="hub-icon-wrap disabled-icon-wrap">
-                                <img src="assets/decorative/energy-motif.svg" alt="Moveset" class="hub-icon">
+                            <div class="hub-icon-wrap moveset-icon-wrap">
+                                <img src="assets/icons/moveset-retro.svg" alt="Moveset" class="hub-icon">
                             </div>
                         </div>
                         <h3 class="custom-font">Moveset Recommender</h3>
-                        <p class="hub-card-desc">Suggest optimal competitive movesets, items, and EV spreads tailored to
-                            your team's archetype.</p>
-                        <button class="custom-font hub-action-btn btn-disabled" disabled>
+                        <p class="hub-card-desc">Suggest context-aware competitive movesets, legal learnsets, Tera
+                            types, and items tailored to your team synergy.</p>
+                        <button id="moveset-btn" class="custom-font hub-action-btn btn-moveset" disabled>
                             <img src="assets/icons/moveset-retro.svg" class="btn-retro-icon" alt="">
-                            <span>PHASE 3 ROADMAP</span>
+                            <span>RECOMMEND MOVESETS</span>
                         </button>
                     </div>
 
-                    <!-- Option 4: Team Optimizer (Roadmap) -->
-                    <div class="hub-card coming-soon-card">
+                    <!-- Option 4: Team Optimizer (Phase 3) -->
+                    <div class="hub-card active-option" id="hub-card-optimizer">
                         <div class="hub-card-top">
-                            <div class="hub-icon-wrap disabled-icon-wrap">
-                                <img src="assets/decorative/battle-grid.svg" alt="Optimizer" class="hub-icon">
+                            <div class="hub-icon-wrap optimizer-icon-wrap">
+                                <img src="assets/icons/optimizer-retro.svg" alt="Optimizer" class="hub-icon">
                             </div>
                         </div>
                         <h3 class="custom-font">Team Optimizer</h3>
-                        <p class="hub-card-desc">Discover alternative Pokémon replacements to patch severe defensive
-                            holes and expand offensive coverage.</p>
-                        <button class="custom-font hub-action-btn btn-disabled" disabled>
+                        <p class="hub-card-desc">Audit team role gaps and simulate high-ladder candidate replacements to
+                            optimize overall team synergy.</p>
+                        <button id="optimizer-btn" class="custom-font hub-action-btn btn-optimizer" disabled>
                             <img src="assets/icons/optimizer-retro.svg" class="btn-retro-icon" alt="">
-                            <span>PHASE 3 ROADMAP</span>
+                            <span>OPTIMIZE TEAM</span>
                         </button>
                     </div>
                 </div>
@@ -146,13 +156,21 @@
 
             <!-- 3. Results Section Container -->
             <section id="results-container" class="results-container hidden">
-                <!-- Navigation Tabs (shown when at least one analysis is generated) -->
+                <!-- Navigation Tabs -->
                 <div class="results-tab-bar" id="results-tab-bar">
                     <button class="tab-btn custom-font active" id="tab-archetype"
-                        onclick="switchResultTab('archetype')"><img src="assets/icons/predict-retro.svg"
-                            class="tab-retro-icon" alt=""> Archetype Prediction</button>
-                    <button class="tab-btn custom-font" id="tab-synergy" onclick="switchResultTab('synergy')"><img
-                            src="assets/icons/synergy-retro.svg" class="tab-retro-icon" alt=""> Team Synergy</button>
+                        onclick="switchResultTab('archetype')">
+                        <img src="assets/icons/predict-retro.svg" class="tab-retro-icon" alt=""> Archetype
+                    </button>
+                    <button class="tab-btn custom-font" id="tab-synergy" onclick="switchResultTab('synergy')">
+                        <img src="assets/icons/synergy-retro.svg" class="tab-retro-icon" alt=""> Synergy
+                    </button>
+                    <button class="tab-btn custom-font" id="tab-moveset" onclick="switchResultTab('moveset')">
+                        <img src="assets/icons/moveset-retro.svg" class="tab-retro-icon" alt=""> Movesets
+                    </button>
+                    <button class="tab-btn custom-font" id="tab-optimizer" onclick="switchResultTab('optimizer')">
+                        <img src="assets/icons/optimizer-retro.svg" class="tab-retro-icon" alt=""> Team Optimizer
+                    </button>
                 </div>
 
                 <!-- VIEW A: Archetype Prediction Results -->
@@ -334,12 +352,68 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- VIEW C: Moveset Recommendation Results -->
+                <div id="results-moveset" class="result-view card hidden">
+                    <div class="moveset-header">
+                        <div class="moveset-header-left">
+                            <div class="label custom-font">CONTEXT-AWARE RECOMMENDATIONS</div>
+                            <h2 id="moveset-pokemon-title" class="custom-font">Recommended Movesets</h2>
+                            <p id="moveset-summary-desc" class="subtext">Select a team member below to view legal,
+                                high-ladder optimized movesets and items.</p>
+                        </div>
+                        <div class="meta-badge-tag custom-font" id="moveset-format-badge">GEN 9 OU</div>
+                    </div>
+
+                    <!-- Team Selector Pills for Moveset View -->
+                    <div class="moveset-selector-pills" id="moveset-member-pills"></div>
+
+                    <!-- Active Member Detailed Moveset Display -->
+                    <div class="active-moveset-container" id="active-moveset-container">
+                        <div class="moveset-grid" id="moveset-grid"></div>
+
+                        <!-- Sidebar: Meta Items & Tera Types -->
+                        <div class="moveset-sidebar">
+                            <div class="card-inner meta-box">
+                                <h3 class="custom-font section-subheading">Recommended Tera Types</h3>
+                                <div class="tera-badge-list" id="moveset-tera-list"></div>
+                            </div>
+                            <div class="card-inner meta-box">
+                                <h3 class="custom-font section-subheading">Competitive Held Items</h3>
+                                <div class="item-badge-list" id="moveset-item-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW D: Team Optimizer Results -->
+                <div id="results-optimizer" class="result-view card hidden">
+                    <div class="optimizer-header">
+                        <div>
+                            <div class="label custom-font">TEAM OPTIMIZER & GAP AUDIT</div>
+                            <h2 class="custom-font">Optimization Suggestions</h2>
+                            <p class="subtext">Our search engine simulated candidate replacements to maximize your team
+                                synergy score.</p>
+                        </div>
+                        <div class="optimizer-score-box">
+                            <div class="score-delta-wrap">
+                                <span class="score-delta-label custom-font">CURRENT SCORE</span>
+                                <span class="score-delta-val current-score custom-font" id="opt-current-score">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gaps Identified Alert Box -->
+                    <div class="optimizer-gaps-box" id="optimizer-gaps-box"></div>
+
+                    <!-- Suggestions Cards Stack -->
+                    <div class="suggestions-stack" id="optimizer-suggestions-list"></div>
+                </div>
             </section>
         </main>
-
     </div>
 
-    <script src="main.js?v=2.1"></script>
+    <script src="main.js?v=3.0"></script>
 </body>
 
 </html>
