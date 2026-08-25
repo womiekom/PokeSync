@@ -1,0 +1,1290 @@
+{
+  "noability": {
+    "name": "noability",
+    "desc": ""
+  },
+  "adaptability": {
+    "name": "adaptability",
+    "desc": ""
+  },
+  "aerilate": {
+    "name": "aerilate",
+    "desc": ""
+  },
+  "aftermath": {
+    "name": "aftermath",
+    "desc": ""
+  },
+  "airlock": {
+    "name": "airlock",
+    "desc": ""
+  },
+  "analytic": {
+    "name": "analytic",
+    "desc": ""
+  },
+  "angerpoint": {
+    "name": "angerpoint",
+    "desc": ""
+  },
+  "angershell": {
+    "name": "angershell",
+    "desc": ""
+  },
+  "anticipation": {
+    "name": "anticipation",
+    "desc": ""
+  },
+  "arenatrap": {
+    "name": "arenatrap",
+    "desc": ""
+  },
+  "armortail": {
+    "name": "armortail",
+    "desc": ""
+  },
+  "flags": {
+    "name": "flags",
+    "desc": ""
+  },
+  "aromaveil": {
+    "name": "aromaveil",
+    "desc": ""
+  },
+  "asoneglastrier": {
+    "name": "asoneglastrier",
+    "desc": ""
+  },
+  "asonespectrier": {
+    "name": "asonespectrier",
+    "desc": ""
+  },
+  "aurabreak": {
+    "name": "aurabreak",
+    "desc": ""
+  },
+  "baddreams": {
+    "name": "baddreams",
+    "desc": ""
+  },
+  "ballfetch": {
+    "name": "ballfetch",
+    "desc": ""
+  },
+  "battery": {
+    "name": "battery",
+    "desc": ""
+  },
+  "battlearmor": {
+    "name": "battlearmor",
+    "desc": ""
+  },
+  "battlebond": {
+    "name": "battlebond",
+    "desc": ""
+  },
+  "beadsofruin": {
+    "name": "beadsofruin",
+    "desc": ""
+  },
+  "beastboost": {
+    "name": "beastboost",
+    "desc": ""
+  },
+  "berserk": {
+    "name": "berserk",
+    "desc": ""
+  },
+  "bigpecks": {
+    "name": "bigpecks",
+    "desc": ""
+  },
+  "blaze": {
+    "name": "blaze",
+    "desc": ""
+  },
+  "bulletproof": {
+    "name": "bulletproof",
+    "desc": ""
+  },
+  "cheekpouch": {
+    "name": "cheekpouch",
+    "desc": ""
+  },
+  "chillingneigh": {
+    "name": "chillingneigh",
+    "desc": ""
+  },
+  "chlorophyll": {
+    "name": "chlorophyll",
+    "desc": ""
+  },
+  "clearbody": {
+    "name": "clearbody",
+    "desc": ""
+  },
+  "cloudnine": {
+    "name": "cloudnine",
+    "desc": ""
+  },
+  "colorchange": {
+    "name": "colorchange",
+    "desc": ""
+  },
+  "comatose": {
+    "name": "comatose",
+    "desc": ""
+  },
+  "commander": {
+    "name": "commander",
+    "desc": ""
+  },
+  "competitive": {
+    "name": "competitive",
+    "desc": ""
+  },
+  "compoundeyes": {
+    "name": "compoundeyes",
+    "desc": ""
+  },
+  "contrary": {
+    "name": "contrary",
+    "desc": ""
+  },
+  "corrosion": {
+    "name": "corrosion",
+    "desc": ""
+  },
+  "costar": {
+    "name": "costar",
+    "desc": ""
+  },
+  "cottondown": {
+    "name": "cottondown",
+    "desc": ""
+  },
+  "cudchew": {
+    "name": "cudchew",
+    "desc": ""
+  },
+  "curiousmedicine": {
+    "name": "curiousmedicine",
+    "desc": ""
+  },
+  "cursedbody": {
+    "name": "cursedbody",
+    "desc": ""
+  },
+  "cutecharm": {
+    "name": "cutecharm",
+    "desc": ""
+  },
+  "damp": {
+    "name": "damp",
+    "desc": ""
+  },
+  "dancer": {
+    "name": "dancer",
+    "desc": ""
+  },
+  "darkaura": {
+    "name": "darkaura",
+    "desc": ""
+  },
+  "dauntlessshield": {
+    "name": "dauntlessshield",
+    "desc": ""
+  },
+  "dazzling": {
+    "name": "dazzling",
+    "desc": ""
+  },
+  "defeatist": {
+    "name": "defeatist",
+    "desc": ""
+  },
+  "defiant": {
+    "name": "defiant",
+    "desc": ""
+  },
+  "deltastream": {
+    "name": "deltastream",
+    "desc": ""
+  },
+  "desolateland": {
+    "name": "desolateland",
+    "desc": ""
+  },
+  "disguise": {
+    "name": "disguise",
+    "desc": ""
+  },
+  "download": {
+    "name": "download",
+    "desc": ""
+  },
+  "dragonize": {
+    "name": "dragonize",
+    "desc": ""
+  },
+  "dragonsmaw": {
+    "name": "dragonsmaw",
+    "desc": ""
+  },
+  "drizzle": {
+    "name": "drizzle",
+    "desc": ""
+  },
+  "drought": {
+    "name": "drought",
+    "desc": ""
+  },
+  "dryskin": {
+    "name": "dryskin",
+    "desc": ""
+  },
+  "earlybird": {
+    "name": "earlybird",
+    "desc": ""
+  },
+  "eartheater": {
+    "name": "eartheater",
+    "desc": ""
+  },
+  "eelevate": {
+    "name": "eelevate",
+    "desc": ""
+  },
+  "effectspore": {
+    "name": "effectspore",
+    "desc": ""
+  },
+  "electricsurge": {
+    "name": "electricsurge",
+    "desc": ""
+  },
+  "electromorphosis": {
+    "name": "electromorphosis",
+    "desc": ""
+  },
+  "embodyaspectcornerstone": {
+    "name": "embodyaspectcornerstone",
+    "desc": ""
+  },
+  "embodyaspecthearthflame": {
+    "name": "embodyaspecthearthflame",
+    "desc": ""
+  },
+  "embodyaspectteal": {
+    "name": "embodyaspectteal",
+    "desc": ""
+  },
+  "embodyaspectwellspring": {
+    "name": "embodyaspectwellspring",
+    "desc": ""
+  },
+  "emergencyexit": {
+    "name": "emergencyexit",
+    "desc": ""
+  },
+  "fairyaura": {
+    "name": "fairyaura",
+    "desc": ""
+  },
+  "filter": {
+    "name": "filter",
+    "desc": ""
+  },
+  "firemane": {
+    "name": "firemane",
+    "desc": ""
+  },
+  "flamebody": {
+    "name": "flamebody",
+    "desc": ""
+  },
+  "flareboost": {
+    "name": "flareboost",
+    "desc": ""
+  },
+  "flashfire": {
+    "name": "flashfire",
+    "desc": ""
+  },
+  "condition": {
+    "name": "condition",
+    "desc": ""
+  },
+  "flowergift": {
+    "name": "flowergift",
+    "desc": ""
+  },
+  "flowerveil": {
+    "name": "flowerveil",
+    "desc": ""
+  },
+  "fluffy": {
+    "name": "fluffy",
+    "desc": ""
+  },
+  "forecast": {
+    "name": "forecast",
+    "desc": ""
+  },
+  "forewarn": {
+    "name": "forewarn",
+    "desc": ""
+  },
+  "friendguard": {
+    "name": "friendguard",
+    "desc": ""
+  },
+  "frisk": {
+    "name": "frisk",
+    "desc": ""
+  },
+  "fullmetalbody": {
+    "name": "fullmetalbody",
+    "desc": ""
+  },
+  "furcoat": {
+    "name": "furcoat",
+    "desc": ""
+  },
+  "galewings": {
+    "name": "galewings",
+    "desc": ""
+  },
+  "galvanize": {
+    "name": "galvanize",
+    "desc": ""
+  },
+  "gluttony": {
+    "name": "gluttony",
+    "desc": ""
+  },
+  "goodasgold": {
+    "name": "goodasgold",
+    "desc": ""
+  },
+  "gooey": {
+    "name": "gooey",
+    "desc": ""
+  },
+  "gorillatactics": {
+    "name": "gorillatactics",
+    "desc": ""
+  },
+  "grasspelt": {
+    "name": "grasspelt",
+    "desc": ""
+  },
+  "grassysurge": {
+    "name": "grassysurge",
+    "desc": ""
+  },
+  "grimneigh": {
+    "name": "grimneigh",
+    "desc": ""
+  },
+  "guarddog": {
+    "name": "guarddog",
+    "desc": ""
+  },
+  "gulpmissile": {
+    "name": "gulpmissile",
+    "desc": ""
+  },
+  "guts": {
+    "name": "guts",
+    "desc": ""
+  },
+  "hadronengine": {
+    "name": "hadronengine",
+    "desc": ""
+  },
+  "harvest": {
+    "name": "harvest",
+    "desc": ""
+  },
+  "healer": {
+    "name": "healer",
+    "desc": ""
+  },
+  "heatproof": {
+    "name": "heatproof",
+    "desc": ""
+  },
+  "heavymetal": {
+    "name": "heavymetal",
+    "desc": ""
+  },
+  "honeygather": {
+    "name": "honeygather",
+    "desc": ""
+  },
+  "hospitality": {
+    "name": "hospitality",
+    "desc": ""
+  },
+  "hugepower": {
+    "name": "hugepower",
+    "desc": ""
+  },
+  "hungerswitch": {
+    "name": "hungerswitch",
+    "desc": ""
+  },
+  "hustle": {
+    "name": "hustle",
+    "desc": ""
+  },
+  "hydration": {
+    "name": "hydration",
+    "desc": ""
+  },
+  "hypercutter": {
+    "name": "hypercutter",
+    "desc": ""
+  },
+  "icebody": {
+    "name": "icebody",
+    "desc": ""
+  },
+  "iceface": {
+    "name": "iceface",
+    "desc": ""
+  },
+  "icescales": {
+    "name": "icescales",
+    "desc": ""
+  },
+  "illuminate": {
+    "name": "illuminate",
+    "desc": ""
+  },
+  "illusion": {
+    "name": "illusion",
+    "desc": ""
+  },
+  "immunity": {
+    "name": "immunity",
+    "desc": ""
+  },
+  "imposter": {
+    "name": "imposter",
+    "desc": ""
+  },
+  "infiltrator": {
+    "name": "infiltrator",
+    "desc": ""
+  },
+  "innardsout": {
+    "name": "innardsout",
+    "desc": ""
+  },
+  "innerfocus": {
+    "name": "innerfocus",
+    "desc": ""
+  },
+  "insomnia": {
+    "name": "insomnia",
+    "desc": ""
+  },
+  "intimidate": {
+    "name": "intimidate",
+    "desc": ""
+  },
+  "intrepidsword": {
+    "name": "intrepidsword",
+    "desc": ""
+  },
+  "ironbarbs": {
+    "name": "ironbarbs",
+    "desc": ""
+  },
+  "ironfist": {
+    "name": "ironfist",
+    "desc": ""
+  },
+  "justified": {
+    "name": "justified",
+    "desc": ""
+  },
+  "keeneye": {
+    "name": "keeneye",
+    "desc": ""
+  },
+  "klutz": {
+    "name": "klutz",
+    "desc": ""
+  },
+  "leafguard": {
+    "name": "leafguard",
+    "desc": ""
+  },
+  "levitate": {
+    "name": "levitate",
+    "desc": ""
+  },
+  "libero": {
+    "name": "libero",
+    "desc": ""
+  },
+  "lightmetal": {
+    "name": "lightmetal",
+    "desc": ""
+  },
+  "lightningrod": {
+    "name": "lightningrod",
+    "desc": ""
+  },
+  "limber": {
+    "name": "limber",
+    "desc": ""
+  },
+  "lingeringaroma": {
+    "name": "lingeringaroma",
+    "desc": ""
+  },
+  "liquidooze": {
+    "name": "liquidooze",
+    "desc": ""
+  },
+  "liquidvoice": {
+    "name": "liquidvoice",
+    "desc": ""
+  },
+  "longreach": {
+    "name": "longreach",
+    "desc": ""
+  },
+  "magicbounce": {
+    "name": "magicbounce",
+    "desc": ""
+  },
+  "magicguard": {
+    "name": "magicguard",
+    "desc": ""
+  },
+  "magician": {
+    "name": "magician",
+    "desc": ""
+  },
+  "magmaarmor": {
+    "name": "magmaarmor",
+    "desc": ""
+  },
+  "magnetpull": {
+    "name": "magnetpull",
+    "desc": ""
+  },
+  "marvelscale": {
+    "name": "marvelscale",
+    "desc": ""
+  },
+  "megalauncher": {
+    "name": "megalauncher",
+    "desc": ""
+  },
+  "megasol": {
+    "name": "megasol",
+    "desc": ""
+  },
+  "merciless": {
+    "name": "merciless",
+    "desc": ""
+  },
+  "mimicry": {
+    "name": "mimicry",
+    "desc": ""
+  },
+  "mindseye": {
+    "name": "mindseye",
+    "desc": ""
+  },
+  "minus": {
+    "name": "minus",
+    "desc": ""
+  },
+  "mirrorarmor": {
+    "name": "mirrorarmor",
+    "desc": ""
+  },
+  "mistysurge": {
+    "name": "mistysurge",
+    "desc": ""
+  },
+  "moldbreaker": {
+    "name": "moldbreaker",
+    "desc": ""
+  },
+  "moody": {
+    "name": "moody",
+    "desc": ""
+  },
+  "motordrive": {
+    "name": "motordrive",
+    "desc": ""
+  },
+  "moxie": {
+    "name": "moxie",
+    "desc": ""
+  },
+  "multiscale": {
+    "name": "multiscale",
+    "desc": ""
+  },
+  "multitype": {
+    "name": "multitype",
+    "desc": ""
+  },
+  "mummy": {
+    "name": "mummy",
+    "desc": ""
+  },
+  "myceliummight": {
+    "name": "myceliummight",
+    "desc": ""
+  },
+  "naturalcure": {
+    "name": "naturalcure",
+    "desc": ""
+  },
+  "neuroforce": {
+    "name": "neuroforce",
+    "desc": ""
+  },
+  "neutralizinggas": {
+    "name": "neutralizinggas",
+    "desc": ""
+  },
+  "noguard": {
+    "name": "noguard",
+    "desc": ""
+  },
+  "normalize": {
+    "name": "normalize",
+    "desc": ""
+  },
+  "oblivious": {
+    "name": "oblivious",
+    "desc": ""
+  },
+  "opportunist": {
+    "name": "opportunist",
+    "desc": ""
+  },
+  "orichalcumpulse": {
+    "name": "orichalcumpulse",
+    "desc": ""
+  },
+  "overcoat": {
+    "name": "overcoat",
+    "desc": ""
+  },
+  "overgrow": {
+    "name": "overgrow",
+    "desc": ""
+  },
+  "owntempo": {
+    "name": "owntempo",
+    "desc": ""
+  },
+  "parentalbond": {
+    "name": "parentalbond",
+    "desc": ""
+  },
+  "pastelveil": {
+    "name": "pastelveil",
+    "desc": ""
+  },
+  "perishbody": {
+    "name": "perishbody",
+    "desc": ""
+  },
+  "pickpocket": {
+    "name": "pickpocket",
+    "desc": ""
+  },
+  "pickup": {
+    "name": "pickup",
+    "desc": ""
+  },
+  "piercingdrill": {
+    "name": "piercingdrill",
+    "desc": ""
+  },
+  "pixilate": {
+    "name": "pixilate",
+    "desc": ""
+  },
+  "plus": {
+    "name": "plus",
+    "desc": ""
+  },
+  "poisonheal": {
+    "name": "poisonheal",
+    "desc": ""
+  },
+  "poisonpoint": {
+    "name": "poisonpoint",
+    "desc": ""
+  },
+  "poisonpuppeteer": {
+    "name": "poisonpuppeteer",
+    "desc": ""
+  },
+  "poisontouch": {
+    "name": "poisontouch",
+    "desc": ""
+  },
+  "powerconstruct": {
+    "name": "powerconstruct",
+    "desc": ""
+  },
+  "powerofalchemy": {
+    "name": "powerofalchemy",
+    "desc": ""
+  },
+  "powerspot": {
+    "name": "powerspot",
+    "desc": ""
+  },
+  "prankster": {
+    "name": "prankster",
+    "desc": ""
+  },
+  "pressure": {
+    "name": "pressure",
+    "desc": ""
+  },
+  "primordialsea": {
+    "name": "primordialsea",
+    "desc": ""
+  },
+  "prismarmor": {
+    "name": "prismarmor",
+    "desc": ""
+  },
+  "propellertail": {
+    "name": "propellertail",
+    "desc": ""
+  },
+  "protean": {
+    "name": "protean",
+    "desc": ""
+  },
+  "protosynthesis": {
+    "name": "protosynthesis",
+    "desc": ""
+  },
+  "psychicsurge": {
+    "name": "psychicsurge",
+    "desc": ""
+  },
+  "punkrock": {
+    "name": "punkrock",
+    "desc": ""
+  },
+  "purepower": {
+    "name": "purepower",
+    "desc": ""
+  },
+  "purifyingsalt": {
+    "name": "purifyingsalt",
+    "desc": ""
+  },
+  "quarkdrive": {
+    "name": "quarkdrive",
+    "desc": ""
+  },
+  "queenlymajesty": {
+    "name": "queenlymajesty",
+    "desc": ""
+  },
+  "quickdraw": {
+    "name": "quickdraw",
+    "desc": ""
+  },
+  "quickfeet": {
+    "name": "quickfeet",
+    "desc": ""
+  },
+  "raindish": {
+    "name": "raindish",
+    "desc": ""
+  },
+  "rattled": {
+    "name": "rattled",
+    "desc": ""
+  },
+  "receiver": {
+    "name": "receiver",
+    "desc": ""
+  },
+  "reckless": {
+    "name": "reckless",
+    "desc": ""
+  },
+  "refrigerate": {
+    "name": "refrigerate",
+    "desc": ""
+  },
+  "regenerator": {
+    "name": "regenerator",
+    "desc": ""
+  },
+  "ripen": {
+    "name": "ripen",
+    "desc": ""
+  },
+  "rivalry": {
+    "name": "rivalry",
+    "desc": ""
+  },
+  "rkssystem": {
+    "name": "rkssystem",
+    "desc": ""
+  },
+  "rockhead": {
+    "name": "rockhead",
+    "desc": ""
+  },
+  "rockypayload": {
+    "name": "rockypayload",
+    "desc": ""
+  },
+  "roughskin": {
+    "name": "roughskin",
+    "desc": ""
+  },
+  "runaway": {
+    "name": "runaway",
+    "desc": ""
+  },
+  "sandforce": {
+    "name": "sandforce",
+    "desc": ""
+  },
+  "sandrush": {
+    "name": "sandrush",
+    "desc": ""
+  },
+  "sandspit": {
+    "name": "sandspit",
+    "desc": ""
+  },
+  "sandstream": {
+    "name": "sandstream",
+    "desc": ""
+  },
+  "sandveil": {
+    "name": "sandveil",
+    "desc": ""
+  },
+  "sapsipper": {
+    "name": "sapsipper",
+    "desc": ""
+  },
+  "schooling": {
+    "name": "schooling",
+    "desc": ""
+  },
+  "scrappy": {
+    "name": "scrappy",
+    "desc": ""
+  },
+  "screencleaner": {
+    "name": "screencleaner",
+    "desc": ""
+  },
+  "seedsower": {
+    "name": "seedsower",
+    "desc": ""
+  },
+  "serenegrace": {
+    "name": "serenegrace",
+    "desc": ""
+  },
+  "shadowshield": {
+    "name": "shadowshield",
+    "desc": ""
+  },
+  "shadowtag": {
+    "name": "shadowtag",
+    "desc": ""
+  },
+  "sharpness": {
+    "name": "sharpness",
+    "desc": ""
+  },
+  "shedskin": {
+    "name": "shedskin",
+    "desc": ""
+  },
+  "sheerforce": {
+    "name": "sheerforce",
+    "desc": ""
+  },
+  "shellarmor": {
+    "name": "shellarmor",
+    "desc": ""
+  },
+  "shielddust": {
+    "name": "shielddust",
+    "desc": ""
+  },
+  "shieldsdown": {
+    "name": "shieldsdown",
+    "desc": ""
+  },
+  "simple": {
+    "name": "simple",
+    "desc": ""
+  },
+  "skilllink": {
+    "name": "skilllink",
+    "desc": ""
+  },
+  "slowstart": {
+    "name": "slowstart",
+    "desc": ""
+  },
+  "slushrush": {
+    "name": "slushrush",
+    "desc": ""
+  },
+  "sniper": {
+    "name": "sniper",
+    "desc": ""
+  },
+  "snowcloak": {
+    "name": "snowcloak",
+    "desc": ""
+  },
+  "snowwarning": {
+    "name": "snowwarning",
+    "desc": ""
+  },
+  "solarpower": {
+    "name": "solarpower",
+    "desc": ""
+  },
+  "solidrock": {
+    "name": "solidrock",
+    "desc": ""
+  },
+  "soulheart": {
+    "name": "soulheart",
+    "desc": ""
+  },
+  "soundproof": {
+    "name": "soundproof",
+    "desc": ""
+  },
+  "speedboost": {
+    "name": "speedboost",
+    "desc": ""
+  },
+  "spicyspray": {
+    "name": "spicyspray",
+    "desc": ""
+  },
+  "stakeout": {
+    "name": "stakeout",
+    "desc": ""
+  },
+  "stall": {
+    "name": "stall",
+    "desc": ""
+  },
+  "stalwart": {
+    "name": "stalwart",
+    "desc": ""
+  },
+  "stamina": {
+    "name": "stamina",
+    "desc": ""
+  },
+  "stancechange": {
+    "name": "stancechange",
+    "desc": ""
+  },
+  "static": {
+    "name": "static",
+    "desc": ""
+  },
+  "steadfast": {
+    "name": "steadfast",
+    "desc": ""
+  },
+  "steamengine": {
+    "name": "steamengine",
+    "desc": ""
+  },
+  "steelworker": {
+    "name": "steelworker",
+    "desc": ""
+  },
+  "steelyspirit": {
+    "name": "steelyspirit",
+    "desc": ""
+  },
+  "stench": {
+    "name": "stench",
+    "desc": ""
+  },
+  "stickyhold": {
+    "name": "stickyhold",
+    "desc": ""
+  },
+  "stormdrain": {
+    "name": "stormdrain",
+    "desc": ""
+  },
+  "strongjaw": {
+    "name": "strongjaw",
+    "desc": ""
+  },
+  "sturdy": {
+    "name": "sturdy",
+    "desc": ""
+  },
+  "suctioncups": {
+    "name": "suctioncups",
+    "desc": ""
+  },
+  "superluck": {
+    "name": "superluck",
+    "desc": ""
+  },
+  "supersweetsyrup": {
+    "name": "supersweetsyrup",
+    "desc": ""
+  },
+  "supremeoverlord": {
+    "name": "supremeoverlord",
+    "desc": ""
+  },
+  "surgesurfer": {
+    "name": "surgesurfer",
+    "desc": ""
+  },
+  "swarm": {
+    "name": "swarm",
+    "desc": ""
+  },
+  "sweetveil": {
+    "name": "sweetveil",
+    "desc": ""
+  },
+  "swiftswim": {
+    "name": "swiftswim",
+    "desc": ""
+  },
+  "swordofruin": {
+    "name": "swordofruin",
+    "desc": ""
+  },
+  "symbiosis": {
+    "name": "symbiosis",
+    "desc": ""
+  },
+  "synchronize": {
+    "name": "synchronize",
+    "desc": ""
+  },
+  "tabletsofruin": {
+    "name": "tabletsofruin",
+    "desc": ""
+  },
+  "tangledfeet": {
+    "name": "tangledfeet",
+    "desc": ""
+  },
+  "tanglinghair": {
+    "name": "tanglinghair",
+    "desc": ""
+  },
+  "technician": {
+    "name": "technician",
+    "desc": ""
+  },
+  "telepathy": {
+    "name": "telepathy",
+    "desc": ""
+  },
+  "teraformzero": {
+    "name": "teraformzero",
+    "desc": ""
+  },
+  "terashell": {
+    "name": "terashell",
+    "desc": ""
+  },
+  "terashift": {
+    "name": "terashift",
+    "desc": ""
+  },
+  "teravolt": {
+    "name": "teravolt",
+    "desc": ""
+  },
+  "thermalexchange": {
+    "name": "thermalexchange",
+    "desc": ""
+  },
+  "thickfat": {
+    "name": "thickfat",
+    "desc": ""
+  },
+  "tintedlens": {
+    "name": "tintedlens",
+    "desc": ""
+  },
+  "torrent": {
+    "name": "torrent",
+    "desc": ""
+  },
+  "toughclaws": {
+    "name": "toughclaws",
+    "desc": ""
+  },
+  "toxicboost": {
+    "name": "toxicboost",
+    "desc": ""
+  },
+  "toxicchain": {
+    "name": "toxicchain",
+    "desc": ""
+  },
+  "toxicdebris": {
+    "name": "toxicdebris",
+    "desc": ""
+  },
+  "trace": {
+    "name": "trace",
+    "desc": ""
+  },
+  "transistor": {
+    "name": "transistor",
+    "desc": ""
+  },
+  "triage": {
+    "name": "triage",
+    "desc": ""
+  },
+  "truant": {
+    "name": "truant",
+    "desc": ""
+  },
+  "turboblaze": {
+    "name": "turboblaze",
+    "desc": ""
+  },
+  "unaware": {
+    "name": "unaware",
+    "desc": ""
+  },
+  "unburden": {
+    "name": "unburden",
+    "desc": ""
+  },
+  "unnerve": {
+    "name": "unnerve",
+    "desc": ""
+  },
+  "unseenfist": {
+    "name": "unseenfist",
+    "desc": ""
+  },
+  "vesselofruin": {
+    "name": "vesselofruin",
+    "desc": ""
+  },
+  "victorystar": {
+    "name": "victorystar",
+    "desc": ""
+  },
+  "vitalspirit": {
+    "name": "vitalspirit",
+    "desc": ""
+  },
+  "voltabsorb": {
+    "name": "voltabsorb",
+    "desc": ""
+  },
+  "wanderingspirit": {
+    "name": "wanderingspirit",
+    "desc": ""
+  },
+  "waterabsorb": {
+    "name": "waterabsorb",
+    "desc": ""
+  },
+  "waterbubble": {
+    "name": "waterbubble",
+    "desc": ""
+  },
+  "watercompaction": {
+    "name": "watercompaction",
+    "desc": ""
+  },
+  "waterveil": {
+    "name": "waterveil",
+    "desc": ""
+  },
+  "weakarmor": {
+    "name": "weakarmor",
+    "desc": ""
+  },
+  "wellbakedbody": {
+    "name": "wellbakedbody",
+    "desc": ""
+  },
+  "whitesmoke": {
+    "name": "whitesmoke",
+    "desc": ""
+  },
+  "wimpout": {
+    "name": "wimpout",
+    "desc": ""
+  },
+  "windpower": {
+    "name": "windpower",
+    "desc": ""
+  },
+  "windrider": {
+    "name": "windrider",
+    "desc": ""
+  },
+  "wonderguard": {
+    "name": "wonderguard",
+    "desc": ""
+  },
+  "wonderskin": {
+    "name": "wonderskin",
+    "desc": ""
+  },
+  "zenmode": {
+    "name": "zenmode",
+    "desc": ""
+  },
+  "zerotohero": {
+    "name": "zerotohero",
+    "desc": ""
+  },
+  "mountaineer": {
+    "name": "mountaineer",
+    "desc": ""
+  },
+  "rebound": {
+    "name": "rebound",
+    "desc": ""
+  },
+  "persistent": {
+    "name": "persistent",
+    "desc": ""
+  }
+}
