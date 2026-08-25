@@ -1,8 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.api.schemas import TeamRequest, PredictionResponse, SynergyResponse
+from app.api.schemas import (
+    TeamRequest, PredictionResponse, SynergyResponse,
+    MovesetRequest, MovesetResponse, OptimizeRequest, OptimizeResponse
+)
 from app.ml.model import ArchetypeModel, explain_prediction
 from app.ml.data_loader import load_and_clean_data
 from app.ml.synergy import analyze_team_synergy
+from app.ml.recommender import recommend_moveset
+from app.ml.optimizer import optimize_team
 from app.core.config import settings
 from app.core.utils import get_pokemon_data
 import os
@@ -85,6 +90,60 @@ async def synergy(request: TeamRequest):
     synergy_data["team_data"] = team_data
     
     return SynergyResponse(**synergy_data)
+
+@router.post("/recommend/moveset", response_model=MovesetResponse)
+async def recommend_moveset_endpoint(request: MovesetRequest):
+    """
+    Phase 3: Context-Aware Moveset Recommender endpoint.
+    """
+    _, current_df, _ = get_model_and_data()
+    
+    res = recommend_moveset(
+        pokemon_name=request.pokemon,
+        ability=request.ability or "",
+        item=request.item or "",
+        teammates=request.team or [],
+        archetype=request.archetype or "balance",
+        format_name=request.format or "gen9ou",
+        top_n=4
+    )
+    
+    if not res.get("success"):
+        return MovesetResponse(success=False, error=res.get("error", "Moveset recommendation failed."))
+        
+    return MovesetResponse(**res)
+
+@router.post("/optimize/team", response_model=OptimizeResponse)
+async def optimize_team_endpoint(request: OptimizeRequest):
+    """
+    Phase 3: Team Optimizer endpoint.
+    """
+    _, current_df, current_types = get_model_and_data()
+    
+    res = optimize_team(
+        team=request.team,
+        df_pokemon=current_df,
+        df_types=current_types,
+        format_name=request.format or "gen9ou",
+        target_archetype=request.target_archetype
+    )
+    
+    if not res.get("success"):
+        return OptimizeResponse(success=False, error=res.get("error", "Team optimization failed."))
+        
+    return OptimizeResponse(**res)
+
+@router.get("/formats")
+async def get_formats():
+    """
+    Returns supported competitive formats.
+    """
+    return {
+        "formats": [
+            {"id": "gen9ou", "name": "Gen 9 OU (Smogon Singles)", "is_doubles": False},
+            {"id": "gen9vgc", "name": "Gen 9 VGC (Official Doubles)", "is_doubles": True}
+        ]
+    }
 
 @router.get("/pokemon")
 async def list_pokemon():

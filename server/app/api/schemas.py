@@ -63,3 +63,65 @@ class SynergyResponse(BaseModel):
     beginner_guide: Optional[BeginnerGuide] = None
     team_data: Optional[List[PokemonInfo]] = None
     error: Optional[str] = None
+
+# ==========================================
+# PHASE 3 SCHEMAS: RECOMMENDER & OPTIMIZER
+# ==========================================
+
+class MovesetRequest(BaseModel):
+    pokemon: str
+    ability: Optional[str] = ""
+    item: Optional[str] = ""
+    team: Optional[List[str]] = None
+    archetype: Optional[str] = "balance"
+    format: Optional[str] = "gen9ou"
+
+class RecommendedMove(BaseModel):
+    id: str
+    name: str
+    type: str
+    category: str
+    power: int
+    accuracy: Any
+    priority: int
+    score: float
+    role_tag: str
+    rationale: str
+
+class MovesetResponse(BaseModel):
+    success: bool
+    pokemon: Optional[str] = None
+    types: Optional[List[str]] = None
+    format: Optional[str] = None
+    archetype: Optional[str] = None
+    recommended_moves: Optional[List[RecommendedMove]] = None
+    recommended_tera_types: Optional[List[str]] = None
+    recommended_items: Optional[List[str]] = None
+    archetype_fit_summary: Optional[str] = None
+    error: Optional[str] = None
+
+class OptimizeRequest(BaseModel):
+    team: List[str]
+    format: Optional[str] = "gen9ou"
+    target_archetype: Optional[str] = None
+
+class TeamReplacementSuggestion(BaseModel):
+    remove_pokemon: str
+    remove_pokemon_raw: str
+    add_pokemon: str
+    add_pokemon_raw: str
+    add_pokemon_data: Optional[PokemonInfo] = None
+    score_delta: int
+    new_score: int
+    improved_matchups: List[str]
+    rationale: str
+
+class OptimizeResponse(BaseModel):
+    success: bool
+    format: Optional[str] = None
+    baseline_score: Optional[int] = None
+    baseline_synergy: Optional[Dict[str, Any]] = None
+    gaps_detected: Optional[List[Dict[str, Any]]] = None
+    suggestions: Optional[List[TeamReplacementSuggestion]] = None
+    team_data: Optional[List[PokemonInfo]] = None
+    error: Optional[str] = None
