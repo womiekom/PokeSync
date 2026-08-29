@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Environment and OS
+.env
+.venv/
+env/
+venv/
+.DS_Store
+Thumbs.db
+
+# Ignore all markdown files except README.md
+*.md
+!README.md
+!**/README.md
