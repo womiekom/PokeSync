@@ -135,9 +135,62 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Custom Retro Poké-Alert Helper
+window.showPokeAlert = function(message, title = "COMPETITIVE REGULATION") {
+    const modal = document.getElementById('poke-alert-modal');
+    const msgEl = document.getElementById('poke-alert-message');
+    const titleEl = document.getElementById('poke-alert-title');
+    if (modal && msgEl) {
+        if (titleEl) titleEl.textContent = title;
+        msgEl.textContent = message;
+        modal.classList.remove('hidden');
+    } else {
+        alert(message);
+    }
+};
+
+window.closePokeAlert = function() {
+    const modal = document.getElementById('poke-alert-modal');
+    if (modal) modal.classList.add('hidden');
+};
+
+function getBaseSpeciesName(name) {
+    const clean = String(name).toLowerCase().trim();
+    // Strip common form suffixes (e.g. metagross-mega -> metagross, garchomp-gmax -> garchomp)
+    return clean.split('-')[0].replace(/(mega|gmax|primal|hisui|alola|galar|paldea)$/i, '');
+}
+
+function isGimmickPokemon(name) {
+    const n = String(name).toLowerCase();
+    return n.includes('-mega') || n.includes('mega-') || n.includes('-gmax') || n.includes('gmax-') || n.endsWith('mega') || n.endsWith('gmax') || n.includes('primal');
+}
+
 function addPokemon(name) {
     if (selectedTeam.length >= 6) return;
     if (selectedTeam.includes(name)) return;
+
+    // 1. Species Clause: Cannot include 2 forms of the exact same species (e.g. Metagross + Metagross-Mega)
+    const newBase = getBaseSpeciesName(name);
+    const existingDuplicate = selectedTeam.find(p => getBaseSpeciesName(p) === newBase);
+    if (existingDuplicate) {
+        showPokeAlert(
+            `Species Clause Violation: You cannot have duplicate species on the same roster (${existingDuplicate.replace(/-/g, ' ')} and ${name.replace(/-/g, ' ')} belong to the same species line).`,
+            "SPECIES CLAUSE RULE"
+        );
+        return;
+    }
+
+    // 2. Official Rule: Only 1 Battle Gimmick (Mega Evolution / G-Max / Primal) allowed per team
+    if (isGimmickPokemon(name)) {
+        const existingGimmick = selectedTeam.find(p => isGimmickPokemon(p));
+        if (existingGimmick) {
+            showPokeAlert(
+                `Battle Gimmick Limit: Only 1 Battle Gimmick (Mega Evolution / G-Max / Primal) is permitted per competitive team roster. Your roster already contains ${existingGimmick.replace(/-/g, ' ')}.`,
+                "BATTLE GIMMICK REGULATION"
+            );
+            return;
+        }
+    }
 
     selectedTeam.push(name);
     searchInput.value = '';
@@ -183,6 +236,7 @@ async function updateTeamUI() {
     if (synergyBtn) synergyBtn.disabled = !isFull;
     if (movesetBtn) movesetBtn.disabled = !isFull;
     if (optimizerBtn) optimizerBtn.disabled = !isFull;
+    if (runAllBtn) runAllBtn.disabled = !isFull;
 }
 
 async function fetchPokemonImage(name, slot) {
@@ -347,6 +401,7 @@ function displayArchetypeResults(data) {
     expList.innerHTML = '';
     data.explanations.forEach((text, i) => {
         const li = document.createElement('li');
+        li.className = 'custom-font';
         li.style.animationDelay = `${i * 0.1}s`;
         li.innerHTML = `<span class="bullet-icon">✦</span> ${text}`;
         expList.appendChild(li);
@@ -354,20 +409,25 @@ function displayArchetypeResults(data) {
 
     const probChart = document.getElementById('prob-chart');
     probChart.innerHTML = '';
+    const topArch = data.prediction;
     Object.entries(data.probabilities)
         .sort((a, b) => b[1] - a[1])
         .forEach(([arch, prob], i) => {
             const row = document.createElement('div');
-            row.className = 'prob-row';
             const percent = Math.round(prob * 100);
+            const isTop = (arch === topArch);
+            row.className = `prob-row ${isTop ? 'highlighted' : ''}`;
             
             row.innerHTML = `
-                <div class="prob-info">
-                    <span class="prob-name custom-font">${arch.replace(/_/g, ' ')}</span>
-                    <span class="prob-val custom-font">${percent}%</span>
+                <div class="prob-label-row">
+                    <img src="assets/archetypes/${arch}.svg" class="archetype-small-icon" alt="${arch}" onerror="this.style.display='none'">
+                    <span class="label custom-font">${arch.replace(/_/g, ' ').toUpperCase()}</span>
                 </div>
-                <div class="prob-bar-bg">
-                    <div class="prob-bar-fill" style="width: 0%; background-color: ${getStatColor(percent)};"></div>
+                <div class="prob-bar-container">
+                    <div class="prob-bar-bg">
+                        <div class="prob-bar-fill" style="width: 0%; background-color: ${getStatColor(percent)};"></div>
+                    </div>
+                    <span class="prob-val custom-font">${percent}%</span>
                 </div>
             `;
             probChart.appendChild(row);
@@ -475,13 +535,13 @@ function displaySynergyResults(data) {
         strengthsList.innerHTML = '';
         data.strengths.forEach(s => {
             const card = document.createElement('div');
-            card.className = 'synergy-point-card card-strength';
+            card.className = 'synergy-item-card card-strength';
             card.innerHTML = `
-                <div class="point-header">
-                    <span class="point-title custom-font">${s.title}</span>
-                    <span class="point-tag custom-font">${s.tag.toUpperCase()}</span>
+                <div class="item-card-top">
+                    <h4 class="custom-font item-title">${s.title}</h4>
+                    <span class="badge badge-tag custom-font">${s.tag}</span>
                 </div>
-                <p class="point-desc">${s.description}</p>
+                <p class="item-desc">${s.description}</p>
             `;
             strengthsList.appendChild(card);
         });
@@ -492,13 +552,13 @@ function displaySynergyResults(data) {
         gapsList.innerHTML = '';
         data.gaps.forEach(g => {
             const card = document.createElement('div');
-            card.className = `synergy-point-card card-gap severity-${g.severity}`;
+            card.className = `synergy-item-card card-gap gap-${g.severity || 'warning'}`;
             card.innerHTML = `
-                <div class="point-header">
-                    <span class="point-title custom-font">${g.title}</span>
-                    <span class="point-tag custom-font">${g.severity.toUpperCase()}</span>
+                <div class="item-card-top">
+                    <h4 class="custom-font item-title">${g.title}</h4>
+                    <span class="badge badge-tag-gap custom-font">${g.tag || g.severity.toUpperCase()}</span>
                 </div>
-                <p class="point-desc">${g.description}</p>
+                <p class="item-desc">${g.description}</p>
             `;
             gapsList.appendChild(card);
         });
@@ -507,20 +567,27 @@ function displaySynergyResults(data) {
     const matrixGrid = document.getElementById('type-matchup-grid');
     if (matrixGrid && data.type_matchups) {
         matrixGrid.innerHTML = '';
-        Object.entries(data.type_matchups).forEach(([typeName, matchup]) => {
-            const item = document.createElement('div');
-            item.className = `matrix-cell status-${matchup.status}`;
-            item.innerHTML = `
-                <div class="cell-top">
-                    <img src="assets/symbols/type-${typeName}-badge.png" class="matrix-type-icon" title="${typeName}">
-                    <span class="cell-name custom-font">${typeName.slice(0, 3).toUpperCase()}</span>
+        Object.entries(data.type_matchups).forEach(([typeName, m]) => {
+            const pill = document.createElement('div');
+            pill.className = `type-matrix-pill pill-${m.status}`;
+            
+            let statusText = "Balanced";
+            if (m.status === 'danger') statusText = `${m.weak_count} Weak / ${m.resist_count + m.immune_count} Res`;
+            else if (m.status === 'warning') statusText = `${m.weak_count} Weak / 0 Res`;
+            else if (m.status === 'strength') statusText = `${m.resist_count + m.immune_count} Resists`;
+
+            pill.innerHTML = `
+                <div class="pill-type-header">
+                    <img src="assets/symbols/type-${typeName}-badge.png" class="pill-type-icon" alt="${typeName}">
+                    <span class="pill-type-name custom-font">${typeName.toUpperCase()}</span>
                 </div>
-                <div class="cell-stats">
-                    <span class="stat-weak" title="Weaknesses">▲${matchup.weak_count}</span>
-                    <span class="stat-res" title="Resistances/Immunities">▼${matchup.resist_count + matchup.immune_count}</span>
-                </div>
+                <div class="pill-status-tag custom-font">${statusText}</div>
             `;
-            matrixGrid.appendChild(item);
+            
+            if (m.weak_pokemon && m.weak_pokemon.length > 0) {
+                pill.title = `Weak: ${m.weak_pokemon.join(', ')}`;
+            }
+            matrixGrid.appendChild(pill);
         });
     }
 
@@ -584,7 +651,7 @@ if (movesetBtn) {
             }, 300);
 
         } catch (err) {
-            alert("Moveset recommendation failed.");
+            showPokeAlert("Moveset recommendation failed. Please check backend server status.", "SYSTEM NOTICE");
             analysisOverlay.classList.add('hidden');
         } finally {
             movesetBtn.disabled = selectedTeam.length !== 6;
@@ -628,6 +695,12 @@ function renderActivePokemonMoveset(pokemonName) {
     const grid = document.getElementById('moveset-grid');
     grid.innerHTML = '';
 
+    // Section 1: Core Standard Moveset (Primary 4 Moves)
+    const coreHeader = document.createElement('div');
+    coreHeader.className = 'pool-header-divider custom-font';
+    coreHeader.innerHTML = `<span>★ CORE STANDARD MOVESET</span>`;
+    grid.appendChild(coreHeader);
+
     data.recommended_moves.forEach((move, i) => {
         const card = document.createElement('div');
         card.className = `move-card move-cat-${move.category.toLowerCase()}`;
@@ -650,18 +723,78 @@ function renderActivePokemonMoveset(pokemonName) {
         grid.appendChild(card);
     });
 
-    // Tera Types
+    // Section 2: Alternative Moves Pool 2 (Optimal Candidate Substitutes)
+    if (data.alternative_moves && data.alternative_moves.length > 0) {
+        const altHeader = document.createElement('div');
+        altHeader.className = 'pool-header-divider alt-pool-divider custom-font';
+        altHeader.innerHTML = `<span>❖ OPTIMAL ALTERNATIVE POOL (SUBSTITUTE OPTIONS)</span>`;
+        grid.appendChild(altHeader);
+
+        data.alternative_moves.forEach((move, i) => {
+            const card = document.createElement('div');
+            card.className = `move-card alt-move-card move-cat-${move.category.toLowerCase()}`;
+            card.innerHTML = `
+                <div class="move-card-header">
+                    <div class="move-title-wrap">
+                        <img src="assets/symbols/type-${move.type.toLowerCase()}-badge.png" class="move-type-icon" title="${move.type}">
+                        <span class="move-name custom-font">${move.name}</span>
+                    </div>
+                    <span class="move-role-badge alt-role-badge custom-font">ALT: ${move.role_tag}</span>
+                </div>
+                <div class="move-stats-row">
+                    <span class="move-stat-item custom-font">PWR: <strong>${move.power > 0 ? move.power : '--'}</strong></span>
+                    <span class="move-stat-item custom-font">ACC: <strong>${move.accuracy}%</strong></span>
+                    <span class="move-stat-item custom-font">CAT: <strong>${move.category}</strong></span>
+                    <span class="move-stat-item custom-font">SCORE: <strong>${move.score}</strong></span>
+                </div>
+                <p class="move-rationale">${move.rationale}</p>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Abilities
+    const abilityList = document.getElementById('moveset-ability-list');
+    if (abilityList) {
+        abilityList.innerHTML = '';
+        (data.recommended_abilities || []).forEach(ab => {
+            const abCard = document.createElement('div');
+            abCard.className = 'ability-card-item';
+            abCard.innerHTML = `
+                <div class="ability-card-top">
+                    <span class="ability-name-tag custom-font">${ab.name}</span>
+                    <div class="ability-meta-tags">
+                        ${ab.is_hidden ? '<span class="ability-hidden-pill custom-font">HIDDEN</span>' : ''}
+                        <span class="ability-score-pill custom-font">Score ${ab.score}</span>
+                    </div>
+                </div>
+                <p class="ability-desc-text">${ab.rationale}</p>
+            `;
+            abilityList.appendChild(abCard);
+        });
+    }
+
+    // Tera Types (Suppressed for Megas / Ineligible Forms)
     const teraList = document.getElementById('moveset-tera-list');
-    teraList.innerHTML = '';
-    (data.recommended_tera_types || []).forEach(t => {
-        const badge = document.createElement('div');
-        badge.className = 'tera-badge custom-font';
-        badge.innerHTML = `
-            <img src="assets/symbols/type-${t.toLowerCase()}-badge.png" class="mini-type-icon">
-            <span>Tera ${t}</span>
-        `;
-        teraList.appendChild(badge);
-    });
+    const teraSection = teraList ? teraList.closest('.moveset-side-section') || teraList.parentElement : null;
+    if (teraList) {
+        teraList.innerHTML = '';
+        const teraTypes = data.recommended_tera_types || [];
+        if (teraTypes.length === 0) {
+            if (teraSection) teraSection.style.display = 'none';
+        } else {
+            if (teraSection) teraSection.style.display = '';
+            teraTypes.forEach(t => {
+                const badge = document.createElement('div');
+                badge.className = 'tera-badge custom-font';
+                badge.innerHTML = `
+                    <img src="assets/symbols/type-${t.toLowerCase()}-badge.png" class="mini-type-icon">
+                    <span>Tera ${t}</span>
+                `;
+                teraList.appendChild(badge);
+            });
+        }
+    }
 
     // Items
     const itemList = document.getElementById('moveset-item-list');
