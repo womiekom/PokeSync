@@ -2,6 +2,15 @@ import os
 import json
 import re
 from typing import Dict, List, Optional, Set, Any
+from app.ml.mechanics_engine import (
+    is_status_move,
+    get_effective_accuracy,
+    get_effective_base_power,
+    get_stab_multiplier,
+    get_stat_alignment_score,
+    get_move_priority,
+    evaluate_move_mechanics
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAME_DATA_DIR = os.path.join(BASE_DIR, "data", "game_data")
@@ -79,8 +88,12 @@ def get_legal_moves(pokemon_name: str, format_name: str = "gen9ou") -> Dict[str,
     if not learnset_dict and c_id in _LEARNSETS:
         learnset_dict = _LEARNSETS[c_id]
     
-    # Format banlists for moves
-    banned_moves = {"shedtail", "lastrespects", "batonpass"} if "ou" in format_name.lower() else set()
+    # Format banlists for moves (Standard Clauses: Evasion Clause, OHKO Clause, Sleep Moves where applicable)
+    banned_moves = {
+        "shedtail", "lastrespects", "batonpass",
+        "doubleteam", "minimize",
+        "fissure", "guillotine", "horndrill", "sheercold"
+    } if "ou" in format_name.lower() else set()
     
     legal_moves = {}
     for move_id, sources in learnset_dict.items():
@@ -112,69 +125,24 @@ def get_legal_moves(pokemon_name: str, format_name: str = "gen9ou") -> Dict[str,
             "pp": move_info.get("pp", 10),
             "priority": move_info.get("priority", 0),
             "target": move_info.get("target", "normal"),
-            "flags": move_info.get("flags", {})
+            "flags": move_info.get("flags", {}),
+            "secondary": move_info.get("secondary"),
+            "secondaries": move_info.get("secondaries"),
+            "overrideOffensiveStat": move_info.get("overrideOffensiveStat"),
+            "overrideOffensivePokemon": move_info.get("overrideOffensivePokemon"),
+            "damage": move_info.get("damage"),
+            "boosts": move_info.get("boosts"),
+            "self_effects": move_info.get("self"),
+            "status": move_info.get("status"),
+            "side_condition": move_info.get("sideCondition"),
+            "volatile_status": move_info.get("volatileStatus"),
+            "slot_condition": move_info.get("slotCondition"),
+            "weather": move_info.get("weather"),
+            "terrain": move_info.get("terrain"),
+            "pseudo_weather": move_info.get("pseudoWeather"),
+            "drain": move_info.get("drain"),
+            "force_switch": move_info.get("forceSwitch"),
+            "self_switch": move_info.get("selfSwitch")
         }
         
     return legal_moves
-
-def get_stab_multiplier(pokemon_types: List[str], move_type: str, ability: str = "") -> float:
-    """Calculates STAB (Same-Type Attack Bonus)."""
-    norm_types = [t.lower() for t in pokemon_types]
-    if move_type.lower() in norm_types:
-        return 2.0 if to_canonical_id(ability) == "adaptability" else 1.5
-    return 1.0
-
-def get_stat_alignment_score(category: str, base_atk: int, base_spa: int) -> float:
-    """Evaluates whether the move's damage category matches the Pokémon's offensive stats."""
-    if category == "Status":
-        return 1.0
-    max_stat = max(base_atk, base_spa, 1)
-    if category == "Physical":
-        return base_atk / max_stat
-    elif category == "Special":
-        return base_spa / max_stat
-    return 1.0
-
-def get_weather_terrain_multiplier(move_type: str, move_id: str, weather: str = "", terrain: str = "") -> float:
-    """Calculates weather and terrain damage and utility multipliers."""
-    mult = 1.0
-    w = weather.lower()
-    t = terrain.lower()
-    m_type = move_type.lower()
-    
-    # Weather
-    if w == "rain":
-        if m_type == "water":
-            mult *= 1.5
-        elif m_type == "fire":
-            mult *= 0.5
-        elif move_id in ["hurricane", "thunder"]:
-            mult *= 1.3  # Perfect accuracy bonus
-    elif w == "sun":
-        if m_type == "fire":
-            mult *= 1.5
-        elif m_type == "water":
-            mult *= 0.5
-        elif move_id in ["solarbeam", "solarblade", "growth"]:
-            mult *= 1.4
-        elif move_id == "weatherball":
-            mult *= 2.0  # Turns into 100 BP Fire move boosted by Sun
-    elif w == "snow":
-        if move_id == "blizzard":
-            mult *= 1.3
-    
-    # Terrain
-    if t == "electric" and m_type == "electric":
-        mult *= 1.3
-    elif t == "grassy":
-        if m_type == "grass":
-            mult *= 1.3
-        elif move_id == "grassyglide":
-            mult *= 1.4  # Priority in terrain
-    elif t == "psychic":
-        if m_type == "psychic":
-            mult *= 1.3
-        elif move_id == "expandingforce":
-            mult *= 1.5
-            
-    return mult
