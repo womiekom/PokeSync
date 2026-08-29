@@ -1,11 +1,131 @@
 import os
 import json
 import pandas as pd
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 from app.ml.synergy import analyze_team_synergy
-from app.ml.recommender import load_meta_telemetry
-from app.ml.constraints import to_canonical_id, get_pokemon_species
+from app.ml.recommender import load_meta_telemetry, recommend_moveset
+from app.ml.constraints import to_canonical_id, get_pokemon_species, load_game_data
+from app.ml.semantics_engine import (
+    WEATHER_SETTER_ABILITIES,
+    WEATHER_ABUSER_ABILITIES,
+    TERRAIN_SETTER_ABILITIES,
+    TERRAIN_ABUSER_ABILITIES
+)
 from app.core.utils import get_pokemon_data
+
+def evaluate_candidate_archetype_harmony(
+    candidate_name: str,
+    species_info: Dict[str, Any],
+    target_archetype: str
+) -> Tuple[float, List[str]]:
+    """
+    Evaluates whether a candidate Pokémon strengthens or destroys the team's active archetype strategy.
+    Returns (harmony_modifier, list_of_reasons).
+    """
+    arch = str(target_archetype).strip().lower().replace(" ", "_")
+    types = [t.lower() for t in species_info.get("types", [])]
+    abilities = [str(a).lower() for a in species_info.get("abilities", {}).values()] if isinstance(species_info.get("abilities"), dict) else []
+    base_stats = species_info.get("baseStats", {"hp": 80, "atk": 80, "def": 80, "spa": 80, "spd": 80, "spe": 80})
+    spe = base_stats.get("spe", 80)
+    
+    mod = 0.0
+    reasons = []
+
+    # 1. Rain Archetype
+    if arch == "rain":
+        if any(a in WEATHER_SETTER_ABILITIES["rain"] for a in abilities):
+            mod += 10.0
+            reasons.append("Brings Drizzle weather-setting ability to power team rain strategy")
+        elif any(a in WEATHER_ABUSER_ABILITIES["rain"] for a in abilities):
+            mod += 8.0
+            reasons.append("Possesses Swift Swim/Rain ability doubling speed or recovering under Rain")
+        elif "water" in types:
+            mod += 4.0
+            reasons.append("Water STAB attacks receive 1.5x damage boost under Rain")
+        elif any(t in ["electric", "flying", "steel", "dragon"] for t in types):
+            mod += 3.0
+            reasons.append("Synergizes with Rain defense and perfect accuracy Thunder/Hurricane")
+            
+        # Severe anti-synergy: Fire Pokémon in Rain
+        if "fire" in types and "water" not in types:
+            mod -= 18.0
+            reasons.append("Fire STAB damage is halved (0.5x) in Rain, causing severe strategic anti-synergy")
+        # Disqualify conflicting weather setters
+        if any(a in WEATHER_SETTER_ABILITIES["sun"] | WEATHER_SETTER_ABILITIES["snow"] | WEATHER_SETTER_ABILITIES["sand"] for a in abilities):
+            mod -= 25.0
+            reasons.append("Summons conflicting weather that overrides Rain")
+
+    # 2. Sun Archetype
+    elif arch == "sun":
+        if any(a in WEATHER_SETTER_ABILITIES["sun"] for a in abilities):
+            mod += 10.0
+            reasons.append("Brings Drought weather-setting ability")
+        elif any(a in WEATHER_ABUSER_ABILITIES["sun"] for a in abilities):
+            mod += 8.0
+            reasons.append("Directly activates Chlorophyll or Protosynthesis in Sun")
+        elif "fire" in types:
+            mod += 5.0
+            reasons.append("Fire STAB attacks receive 1.5x damage boost under Sun")
+        elif "grass" in types:
+            mod += 4.0
+            reasons.append("Executes 1-turn Solar Beam and boosted Growth in Sun")
+            
+        if "water" in types:
+            mod -= 18.0
+            reasons.append("Water STAB damage is halved (0.5x) in Harsh Sunlight")
+        if any(a in WEATHER_SETTER_ABILITIES["rain"] | WEATHER_SETTER_ABILITIES["snow"] for a in abilities):
+            mod -= 25.0
+            reasons.append("Summons conflicting weather that overrides Sun")
+
+    # 3. Sand Archetype
+    elif arch == "sand":
+        if any(a in WEATHER_SETTER_ABILITIES["sand"] for a in abilities):
+            mod += 10.0
+            reasons.append("Sets Sandstorm for the team")
+        elif any(a in WEATHER_ABUSER_ABILITIES["sand"] for a in abilities):
+            mod += 8.0
+            reasons.append("Sand Rush / Sand Force abuser in Sandstorm")
+        elif "rock" in types:
+            mod += 6.0
+            reasons.append("Gains 1.5x Special Defense boost in Sandstorm")
+        elif any(t in ["ground", "steel"] for t in types):
+            mod += 4.0
+            reasons.append("Immune to Sandstorm residual chip damage")
+
+    # 4. Snow Archetype
+    elif arch == "snow":
+        if any(a in WEATHER_SETTER_ABILITIES["snow"] for a in abilities):
+            mod += 10.0
+            reasons.append("Sets Snow for the team")
+        elif any(a in WEATHER_ABUSER_ABILITIES["snow"] for a in abilities):
+            mod += 8.0
+            reasons.append("Slush Rush speed abuser in Snow")
+        elif "ice" in types:
+            mod += 6.0
+            reasons.append("Gains 1.5x physical Defense boost in Snow")
+
+    # 5. Trick Room Archetype
+    elif arch == "trick_room":
+        if spe <= 50 and max(base_stats.get("atk", 80), base_stats.get("spa", 80)) >= 105:
+            mod += 8.0
+            reasons.append(f"Low speed ({spe}) allows moving first under Trick Room")
+        elif spe >= 105:
+            mod -= 15.0
+            reasons.append(f"High speed ({spe}) is severely penalized when Trick Room reverses turn order")
+
+    # 6. Hyper Offense Archetype
+    elif arch == "hyper_offense":
+        if spe >= 100 or max(base_stats.get("atk", 80), base_stats.get("spa", 80)) >= 120:
+            mod += 5.0
+            reasons.append("Fast, high-octane offensive sweeper keeping relentless momentum")
+
+    # 7. Stall Archetype
+    elif arch == "stall":
+        if (base_stats.get("hp", 80) + base_stats.get("def", 80) + base_stats.get("spd", 80)) >= 290:
+            mod += 6.0
+            reasons.append("Formidable defensive bulk absorbing repeated offensive pressure")
+
+    return mod, reasons
 
 def optimize_team(
     team: List[str],
@@ -15,10 +135,10 @@ def optimize_team(
     target_archetype: Optional[str] = None
 ) -> Dict[str, Any]:
     """
-    Team Optimizer Engine.
-    Audits a 6-Pokémon team for strategic gaps and defensive vulnerabilities,
-    then executes a fast combinatorial candidate search to propose optimal 1-for-1 replacements.
+    Strategy-Preserving Team Optimizer Engine.
+    Audits team for tactical gaps and evaluates candidate replacements strictly under the active archetype.
     """
+    load_game_data()
     if len(team) != 6:
         return {
             "success": False,
@@ -55,7 +175,6 @@ def optimize_team(
             "tag": g.get("tag", "defense")
         })
         
-    # Check severe defensive vulnerabilities
     type_matchups = baseline_synergy.get("type_matchups", {})
     severe_types = []
     for t_name, t_info in type_matchups.items():
@@ -69,8 +188,8 @@ def optimize_team(
             "severity": "high",
             "tag": "defense"
         })
-        
-    # 3. Candidate Pool (Pre-indexed lookup for high performance)
+
+    # 3. Candidate Pool
     canonical_to_name = {to_canonical_id(n): n for n in df_pokemon["name"]}
     meta = load_meta_telemetry(format_name)
     meta_pokemon = meta.get("pokemon", {})
@@ -81,19 +200,20 @@ def optimize_team(
             cand_name = canonical_to_name[c_id]
             if cand_name not in normalized_team and cand_name not in candidate_pool:
                 candidate_pool.append(cand_name)
-        if len(candidate_pool) >= 25:
+        if len(candidate_pool) >= 35:
             break
             
-    if len(candidate_pool) < 15:
+    if len(candidate_pool) < 20:
         for _, row in df_pokemon.sort_values(by="base_stat_total", ascending=False).iterrows():
             if row["name"] not in normalized_team and row["name"] not in candidate_pool:
                 candidate_pool.append(row["name"])
-            if len(candidate_pool) >= 20:
+            if len(candidate_pool) >= 25:
                 break
 
-    # 4. Fast Combinatorial Evaluation
+    # 4. Strategy-Aware Candidate Evaluation Loop
     proposals = []
-    
+    target_arch = str(target_archetype or "balance").lower()
+
     for i, current_mon in enumerate(normalized_team):
         current_display = current_mon.replace("-", " ").title()
         
@@ -101,12 +221,29 @@ def optimize_team(
             test_team = list(normalized_team)
             test_team[i] = cand
             
+            cand_spec = get_pokemon_species(cand)
+            if not cand_spec:
+                continue
+                
+            # A. Evaluate Archetype Strategy Harmony
+            harmony_mod, harmony_reasons = evaluate_candidate_archetype_harmony(
+                candidate_name=cand,
+                species_info=cand_spec,
+                target_archetype=target_arch
+            )
+            
+            # If candidate actively breaks team strategy (e.g. Fire in Rain), skip or heavily penalize
+            if harmony_mod <= -15.0:
+                continue
+                
             test_synergy = analyze_team_synergy(test_team, df_pokemon, df_types)
             if not test_synergy:
                 continue
                 
-            new_score = test_synergy.get("overall", {}).get("score", 50)
-            score_delta = new_score - baseline_score
+            raw_new_score = test_synergy.get("overall", {}).get("score", 50)
+            # Adjusted score with strategy harmony
+            adjusted_new_score = max(10, min(99, raw_new_score + int(harmony_mod * 0.4)))
+            score_delta = adjusted_new_score - baseline_score
             
             if score_delta > 0:
                 new_matchups = test_synergy.get("type_matchups", {})
@@ -123,13 +260,16 @@ def optimize_team(
                 cand_data = get_pokemon_data([cand], df_pokemon)
                 cand_info = cand_data[0] if cand_data else None
                 
+                # Formulate Comprehensive Rationale
                 rationale_parts = [f"Replaces {current_display} with {cand_display} to boost team synergy score by +{score_delta} points"]
+                if harmony_reasons:
+                    rationale_parts.append(harmony_reasons[0])
                 if improved_types:
                     rationale_parts.append(f"Patches critical team defensive weakness against {', '.join(improved_types)}")
-                if test_synergy.get("overall", {}).get("defensive_score", 0) > baseline_synergy.get("overall", {}).get("defensive_score", 0):
+                elif test_synergy.get("overall", {}).get("defensive_score", 0) > baseline_synergy.get("overall", {}).get("defensive_score", 0):
                     rationale_parts.append("Enhances overall elemental defensive resistances")
                 if test_synergy.get("overall", {}).get("offensive_score", 0) > baseline_synergy.get("overall", {}).get("offensive_score", 0):
-                    rationale_parts.append("Expands team offensive super-effective coverage")
+                    rationale_parts.append("Expands team super-effective offensive coverage")
                     
                 rationale = ". ".join(rationale_parts) + "."
                 
@@ -140,7 +280,7 @@ def optimize_team(
                     "add_pokemon_raw": cand,
                     "add_pokemon_data": cand_info,
                     "score_delta": score_delta,
-                    "new_score": new_score,
+                    "new_score": adjusted_new_score,
                     "improved_matchups": improved_types,
                     "rationale": rationale
                 })
