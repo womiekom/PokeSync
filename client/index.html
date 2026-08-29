@@ -18,6 +18,50 @@
         <div class="bg-layer grid-layer"></div>
     </div>
 
+    <!-- Authentic Retro Pokédex Dialogue Box Modal -->
+    <div id="poke-alert-modal" class="poke-dialogue-overlay hidden" onclick="if(event.target===this) closePokeAlert()">
+        <div class="poke-dialogue-chassis">
+            <div class="poke-dialogue-bezel">
+                <div class="poke-dialogue-top-bar">
+                    <div class="pokedex-lens-wrap">
+                        <div class="pokedex-lens-blue"></div>
+                        <div class="pokedex-led-light red"></div>
+                        <div class="pokedex-led-light yellow"></div>
+                        <div class="pokedex-led-light green"></div>
+                    </div>
+                    <div class="pokedex-title-badge custom-font" id="poke-alert-title">TOURNAMENT REGULATION</div>
+                </div>
+                <div class="poke-dialogue-screen">
+                    <div class="screen-scanlines"></div>
+                    <div class="dialogue-content-row">
+                        <div class="dialogue-icon-box">
+                            <img src="assets/ui/pokeball.svg" class="dialogue-speaker-icon" alt="Referee">
+                        </div>
+                        <div class="dialogue-text-wrap">
+                            <p id="poke-alert-message" class="poke-dialogue-text custom-font"></p>
+                        </div>
+                    </div>
+                    <div class="dialogue-arrow-indicator custom-font">▼</div>
+                </div>
+                <div class="poke-dialogue-control-panel">
+                    <div class="dpad-graphic">
+                        <span class="dpad-btn up"></span>
+                        <span class="dpad-btn down"></span>
+                        <span class="dpad-btn left"></span>
+                        <span class="dpad-btn right"></span>
+                        <span class="dpad-center"></span>
+                    </div>
+                    <div class="action-buttons-group">
+                        <button class="retro-a-btn custom-font" onclick="closePokeAlert()">
+                            <span class="btn-letter">A</span>
+                            <span class="btn-label">CONFIRM</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Analysis Overlay -->
     <div id="analysis-overlay" class="analysis-overlay hidden">
         <div class="overlay-content">
@@ -372,14 +416,18 @@
                     <div class="active-moveset-container" id="active-moveset-container">
                         <div class="moveset-grid" id="moveset-grid"></div>
 
-                        <!-- Sidebar: Meta Items & Tera Types -->
+                        <!-- Sidebar: Meta Items, Tera Types & Abilities -->
                         <div class="moveset-sidebar">
+                            <div class="card-inner meta-box">
+                                <h3 class="custom-font section-subheading">Recommended Abilities</h3>
+                                <div class="ability-badge-list" id="moveset-ability-list"></div>
+                            </div>
                             <div class="card-inner meta-box">
                                 <h3 class="custom-font section-subheading">Recommended Tera Types</h3>
                                 <div class="tera-badge-list" id="moveset-tera-list"></div>
                             </div>
                             <div class="card-inner meta-box">
-                                <h3 class="custom-font section-subheading">Competitive Held Items</h3>
+                                <h3 class="custom-font section-subheading">Prioritized Held Items</h3>
                                 <div class="item-badge-list" id="moveset-item-list"></div>
                             </div>
                         </div>
