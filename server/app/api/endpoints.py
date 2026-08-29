@@ -1,13 +1,15 @@
 from fastapi import APIRouter, HTTPException, Depends
 from app.api.schemas import (
     TeamRequest, PredictionResponse, SynergyResponse,
-    MovesetRequest, MovesetResponse, OptimizeRequest, OptimizeResponse
+    MovesetRequest, MovesetResponse, OptimizeRequest, OptimizeResponse,
+    PipelineRunRequest, PipelineRunResponse
 )
 from app.ml.model import ArchetypeModel, explain_prediction
 from app.ml.data_loader import load_and_clean_data
 from app.ml.synergy import analyze_team_synergy
 from app.ml.recommender import recommend_moveset
 from app.ml.optimizer import optimize_team
+from app.ml.orchestrator import orchestrator
 from app.core.config import settings
 from app.core.utils import get_pokemon_data
 import os
@@ -132,6 +134,8 @@ async def optimize_team_endpoint(request: OptimizeRequest):
         return OptimizeResponse(success=False, error=res.get("error", "Team optimization failed."))
         
     return OptimizeResponse(**res)
+
+
 
 @router.get("/formats")
 async def get_formats():
