@@ -81,11 +81,17 @@ class RecommendedMove(BaseModel):
     name: str
     type: str
     category: str
-    power: int
+    power: float
     accuracy: Any
     priority: int
     score: float
     role_tag: str
+    rationale: str
+
+class RecommendedAbility(BaseModel):
+    name: str
+    is_hidden: bool = False
+    score: float
     rationale: str
 
 class MovesetResponse(BaseModel):
@@ -95,8 +101,10 @@ class MovesetResponse(BaseModel):
     format: Optional[str] = None
     archetype: Optional[str] = None
     recommended_moves: Optional[List[RecommendedMove]] = None
+    alternative_moves: Optional[List[RecommendedMove]] = None
     recommended_tera_types: Optional[List[str]] = None
     recommended_items: Optional[List[str]] = None
+    recommended_abilities: Optional[List[RecommendedAbility]] = None
     archetype_fit_summary: Optional[str] = None
     error: Optional[str] = None
 
@@ -124,4 +132,35 @@ class OptimizeResponse(BaseModel):
     gaps_detected: Optional[List[Dict[str, Any]]] = None
     suggestions: Optional[List[TeamReplacementSuggestion]] = None
     team_data: Optional[List[PokemonInfo]] = None
+    error: Optional[str] = None
+
+# ==========================================
+# PIPELINE ORCHESTRATION SCHEMAS
+# ==========================================
+
+class PipelineStepTrace(BaseModel):
+    order: int
+    step_id: str
+    name: str
+    status: str
+    duration_ms: float
+    executed: bool
+    invalidated: bool
+    invalidation_reason: str
+    dependencies: List[str]
+    error: Optional[str] = None
+
+class PipelineRunRequest(BaseModel):
+    team: List[str]
+    format: Optional[str] = "gen9ou"
+    target_archetype: Optional[str] = None
+    cache_state: Optional[Dict[str, Any]] = None
+
+class PipelineRunResponse(BaseModel):
+    success: bool
+    format: Optional[str] = None
+    target_archetype: Optional[str] = None
+    trace: Optional[List[PipelineStepTrace]] = None
+    results: Optional[Dict[str, Any]] = None
+    cache_state: Optional[Dict[str, Any]] = None
     error: Optional[str] = None
