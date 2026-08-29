@@ -868,6 +868,7 @@ input[type="text"]:focus {
 }
 
 .styled-list li {
+    font-family: var(--font-custom);
     padding: 12px 16px;
     background: #fff;
     margin-bottom: 10px;
@@ -876,6 +877,8 @@ input[type="text"]:focus {
     font-weight: 600;
     color: #333;
     font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
 }
 
 /* Probabilities Chart */
@@ -1837,6 +1840,36 @@ input[type="text"]:focus {
     gap: 12px;
 }
 
+.pool-header-divider {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: var(--primary-dark);
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    background: #fff0f0;
+    border: 1.5px solid #ffcdd2;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.alt-pool-divider {
+    color: var(--accent-dark);
+    background: #f0f4ff;
+    border-color: #c7d2fe;
+    margin-top: 14px;
+}
+
+.alt-move-card {
+    background: #fbfcfe;
+    border-color: #d1d5db;
+}
+
+.alt-role-badge {
+    background: #eef2ff !important;
+    color: #4338ca !important;
+    border-color: #c7d2fe !important;
+}
+
 .move-card {
     background: white;
     border: 2px solid #e0e0e0;
@@ -2139,6 +2172,363 @@ input[type="text"]:focus {
     background: #7b1fa2;
     box-shadow: 0 4px 10px rgba(156, 39, 176, 0.35);
     transform: translateY(-1px);
+}
+
+/* ===================================================
+   RUN ALL MASTER ACTION & PIPELINE TRACE STYLES
+   =================================================== */
+
+.run-all-action-row {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.run-all-master-btn {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: #fff;
+    border: 3px solid #d35400;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 6px 16px rgba(230, 126, 34, 0.35);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    letter-spacing: 0.5px;
+}
+
+.run-all-master-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(230, 126, 34, 0.5);
+    background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+.run-all-master-btn:disabled {
+    background: #bdc3c7;
+    border-color: #95a5a6;
+    color: #7f8c8d;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.run-all-master-btn .btn-retro-icon {
+    width: 26px;
+    height: 26px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Ability Badges */
+.ability-badge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ability-card-item {
+    background: #fdfefe;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: border-color 0.2s;
+}
+
+.ability-card-item:hover {
+    border-color: #3b82f6;
+}
+
+.ability-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.ability-name-tag {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.ability-meta-tags {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.ability-hidden-pill {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.ability-score-pill {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.ability-desc-text {
+    font-size: 0.82rem;
+    color: #475569;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* =============================================================
+   AUTHENTIC RETRO POKÉDEX DIALOGUE BOX MODAL
+============================================================= */
+.poke-dialogue-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 15, 30, 0.82);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.poke-dialogue-overlay.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.poke-dialogue-chassis {
+    width: 92%;
+    max-width: 480px;
+    background: #d82a2a;
+    border: 4px solid #1a1a1a;
+    border-radius: 20px;
+    box-shadow: 
+        0 24px 60px rgba(0, 0, 0, 0.6),
+        inset 0 4px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -6px 0 rgba(0, 0, 0, 0.3);
+    padding: 14px;
+    animation: pokedexDropIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+    position: relative;
+}
+
+@keyframes pokedexDropIn {
+    0% { transform: scale(0.8) translateY(-40px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.poke-dialogue-bezel {
+    background: #2a2a2e;
+    border: 3px solid #1a1a1a;
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.poke-dialogue-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.pokedex-lens-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pokedex-lens-blue {
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 35% 35%, #60a5fa, #2563eb, #1e3a8a);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #3b82f6;
+}
+
+.pokedex-led-light {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid #111;
+}
+
+.pokedex-led-light.red { background: #ef4444; box-shadow: 0 0 4px #ef4444; }
+.pokedex-led-light.yellow { background: #eab308; box-shadow: 0 0 4px #eab308; }
+.pokedex-led-light.green { background: #22c55e; box-shadow: 0 0 4px #22c55e; }
+
+.pokedex-title-badge {
+    color: #fbbf24;
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.poke-dialogue-screen {
+    background: #eef6eb;
+    border: 3px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 14px 16px;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.screen-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    border-radius: 6px;
+}
+
+.dialogue-content-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+.dialogue-icon-box {
+    background: #ffffff;
+    border: 2px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0 #1a1a1a;
+    flex-shrink: 0;
+}
+
+.dialogue-speaker-icon {
+    width: 28px;
+    height: 28px;
+    animation: refereeBounce 1.5s ease infinite alternate;
+}
+
+@keyframes refereeBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-3px); }
+}
+
+.dialogue-text-wrap {
+    flex-grow: 1;
+}
+
+.poke-dialogue-text {
+    font-family: var(--font-custom);
+    color: #1e293b;
+    font-size: 1rem;
+    line-height: 1.45;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.dialogue-arrow-indicator {
+    align-self: flex-end;
+    color: #ef4444;
+    font-size: 0.85rem;
+    animation: promptBlink 0.8s steps(2, start) infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes promptBlink {
+    0%, 100% { opacity: 1; transform: translateY(0); }
+    50% { opacity: 0; transform: translateY(2px); }
+}
+
+.poke-dialogue-control-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 4px;
+}
+
+.dpad-graphic {
+    position: relative;
+    width: 46px;
+    height: 46px;
+}
+
+.dpad-btn {
+    position: absolute;
+    background: #111;
+    border-radius: 2px;
+}
+.dpad-btn.up { top: 0; left: 16px; width: 14px; height: 16px; }
+.dpad-btn.down { bottom: 0; left: 16px; width: 14px; height: 16px; }
+.dpad-btn.left { top: 16px; left: 0; width: 16px; height: 14px; }
+.dpad-btn.right { top: 16px; right: 0; width: 16px; height: 14px; }
+.dpad-center { position: absolute; top: 16px; left: 16px; width: 14px; height: 14px; background: #111; }
+
+.retro-a-btn {
+    background: #1e293b;
+    border: 2px solid #000;
+    border-radius: 8px;
+    color: #fff;
+    padding: 8px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #000;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.retro-a-btn:hover {
+    background: #ef4444;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #000;
+}
+
+.btn-letter {
+    background: #fbbf24;
+    color: #000;
+    font-weight: 900;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.4);
+}
+
+.btn-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 footer {
